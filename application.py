@@ -29,57 +29,51 @@ global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
 
-# print a nice greeting.
-def say_hello(username = "World"):
-    return '<p>Hello %s!</p>\n' % username
+def classify_image(image_path):
+    image = load_img(image_path, target_size=(img_width, img_height))
+    image = img_to_array(image)
+
+    # important! otherwise the predictions will be '0'
+    image = image / 255.0
+
+    # add a new axis to make the image array confirm with
+    # the (samples, height, width, depth) structure
+    image = np.expand_dims(image, axis=0)
+
+    # get the probabilities for the prediction
+    with graph.as_default():
+        probabilities = model.predict(image)
+
+    prediction_probability = probabilities[0, probabilities.argmax(axis=1)][0]
+
+    class_predicted = np.argmax(probabilities, axis=1)
+
+    inID = class_predicted[0]
+
+    # invert the class dictionary in order to get the label for the id
+    inv_map = {v: k for k, v in class_dictionary.items()}
+    label = inv_map[inID]
+
+    print(label)
+    print(prediction_probability)
+
+    return label, prediction_probability
 
 def run_pred():
-    # print(final_model_path)
-    # model = load_model(final_model_path)
     if request.method == 'POST':
         f = request.files['bird_image']
         sec_filename = secure_filename(f.filename)
         image_path = './uploads/' + sec_filename
         f.save(image_path)
 
-        image = load_img(image_path, target_size=(img_width, img_height))
-        image = img_to_array(image)
+        label, prediction_probability = classify_image(image_path=image_path)
+        output = "<p>Predicted : {}</p><p>Confidence : {}</p>".format(label, prediction_probability)
 
-        # important! otherwise the predictions will be '0'
-        image = image / 255.0
-
-        # add a new axis to make the image array confirm with
-        # the (samples, height, width, depth) structure
-        image = np.expand_dims(image, axis=0)
-
-        # get the bottleneck prediction from the pre-trained VGG16 model
-        # bottleneck_prediction = model.predict(image)
-
-        # use the bottleneck prediction on the top model to get the final classification
-        # class_predicted = model.predict_classes(image)
-
-        # get the probabilities for the prediction
-        with graph.as_default():
-            probabilities = model.predict(image)
-
-        prediction_probability = probabilities[0, probabilities.argmax(axis=1)][0]
-
-        class_predicted = np.argmax(probabilities, axis=1)
-
-        inID = class_predicted[0]
-
-        # invert the class dictionary in order to get the label for the id
-        inv_map = {v: k for k, v in class_dictionary.items()}
-        label = inv_map[inID]
-
-        print(label)
-        print(prediction_probability)
-
-    return label
+    return output
 
 # some bits of text for the page.
 header_text = '''
-    <html>\n<head> <title>Bird Watch</title> </head>\n<body>'''
+        <html>\n<head> <title>Bird Watch</title> </head>\n<body>'''
 instructions = '''
         <p>Select image to upload:</p>\n
         <form action="/run" method="post" enctype="multipart/form-data">
@@ -94,14 +88,10 @@ application = Flask(__name__)
 
 # add a rule for the index page.
 application.add_url_rule('/', 'index', (lambda: header_text +
-    say_hello() + instructions + footer_text))
+    instructions + footer_text))
 
-# add a rule when the page is accessed with a name appended to the site
-# URL.
-application.add_url_rule('/<username>', 'hello', (lambda username:
-    header_text + say_hello(username) + home_link + footer_text))
-
-application.add_url_rule('/run', 'run', run_pred, methods=['GET', 'POST'])
+application.add_url_rule('/run', 'run', (lambda: header_text +
+    run_pred() + footer_text), methods=['GET', 'POST'])
 
 # run the app.
 if __name__ == "__main__":
