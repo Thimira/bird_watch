@@ -2,10 +2,9 @@ from flask import Flask, request, render_template, url_for
 from werkzeug.utils import secure_filename
 
 import numpy as np
-from keras.preprocessing.image import img_to_array, load_img
 import tensorflow as tf
-from keras.models import Model
-from keras.models import load_model
+from keras.preprocessing.image import img_to_array, load_img
+from keras.models import Model, load_model
 from keras.utils.np_utils import to_categorical
 import os
 import sys
@@ -58,7 +57,11 @@ def classify_image(image_path):
 
     return label, prediction_probability
 
-def run_pred():
+def index():
+    if request.method == 'GET':
+        with application.app_context():
+            return render_template('index.html')
+
     if request.method == 'POST':
         f = request.files['bird_image']
         sec_filename = secure_filename(f.filename)
@@ -73,17 +76,11 @@ def run_pred():
         with application.app_context():
             return render_template('index.html', label=label, prob=prediction_probability, image=image_url)
 
-def index():
-    with application.app_context():
-        return render_template('index.html')
-
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
 # add a rule for the index page.
-application.add_url_rule('/', 'index', index)
-
-application.add_url_rule('/run', 'run', run_pred, methods=['GET', 'POST'])
+application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 
 # run the app.
 if __name__ == "__main__":
