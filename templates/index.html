@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Bird Watch</title>
+    </head>
+    <body>
+            <p>Select image to upload:</p>
+            <form action="/run" method="post" enctype="multipart/form-data">
+                <input type="file" name="bird_image" id="bird_image">
+                <input type="submit" value="Upload Image" name="submit">
+            </form>
+            <br />
+            {% if label %}
+            <p>Predicted : {{label}}</p>
+            <p>Confidence : {{prob}}</p>
+            {% endif %}
+    </body>
+</html>

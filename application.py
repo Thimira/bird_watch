@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import render_template
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -67,31 +68,21 @@ def run_pred():
         f.save(image_path)
 
         label, prediction_probability = classify_image(image_path=image_path)
-        output = "<p>Predicted : {}</p><p>Confidence : {}</p>".format(label, prediction_probability)
 
-    return output
+        with application.app_context():
+            return render_template('index.html', label=label, prob=prediction_probability)
 
-# some bits of text for the page.
-header_text = '''
-        <html>\n<head> <title>Bird Watch</title> </head>\n<body>'''
-instructions = '''
-        <p>Select image to upload:</p>\n
-        <form action="/run" method="post" enctype="multipart/form-data">
-        <input type="file" name="bird_image" id="bird_image">
-        <input type="submit" value="Upload Image" name="submit">
-        </form>'''
-home_link = '<p><a href="/">Back</a></p>\n'
-footer_text = '</body>\n</html>'
+def index():
+    with application.app_context():
+        return render_template('index.html')
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
 # add a rule for the index page.
-application.add_url_rule('/', 'index', (lambda: header_text +
-    instructions + footer_text))
+application.add_url_rule('/', 'index', index)
 
-application.add_url_rule('/run', 'run', (lambda: header_text +
-    run_pred() + footer_text), methods=['GET', 'POST'])
+application.add_url_rule('/run', 'run', run_pred, methods=['GET', 'POST'])
 
 # run the app.
 if __name__ == "__main__":
