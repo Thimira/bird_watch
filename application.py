@@ -1,6 +1,4 @@
-from flask import Flask
-from flask import request
-from flask import render_template
+from flask import Flask, request, render_template, url_for
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -64,13 +62,16 @@ def run_pred():
     if request.method == 'POST':
         f = request.files['bird_image']
         sec_filename = secure_filename(f.filename)
-        image_path = './uploads/' + sec_filename
+        sec_filename = sec_filename.replace(" ", "_")
+        image_path = './static/images/' + sec_filename
         f.save(image_path)
+
+        image_url = url_for('static', filename='images/' + sec_filename)
 
         label, prediction_probability = classify_image(image_path=image_path)
 
         with application.app_context():
-            return render_template('index.html', label=label, prob=prediction_probability)
+            return render_template('index.html', label=label, prob=prediction_probability, image=image_url)
 
 def index():
     with application.app_context():

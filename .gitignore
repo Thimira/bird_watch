@@ -2,6 +2,8 @@
 data/
 uploads/*
 !uploads/.gitkeep
+static/images/*
+!static/images/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -10,7 +10,9 @@
                 <input type="submit" value="Upload Image" name="submit">
             </form>
             <br />
+            <br />
             {% if label %}
+            <img src="{{image}}" width="244" height="244" />
             <p>Predicted : {{label}}</p>
             <p>Confidence : {{prob}}</p>
             {% endif %}
