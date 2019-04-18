@@ -45,17 +45,30 @@
             </div>
         </nav>
         <main role="main" class="container">
-            <p>Select image to upload:</p>
+            <div class="alert alert-primary" role="alert">
+                Upload your bird images run image recognition on them
+            </div>
             <form action="" method="post" enctype="multipart/form-data">
-                <input type="file" name="bird_image" id="bird_image">
-                <input type="submit" value="Upload Image" name="submit">
+                <div class="form-group">
+                    <label for="bird_image">Select image to upload</label>
+                    <input type="file" class="form-control-file btn btn-outline-secondary" name="bird_image" id="bird_image">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Upload" name="submit" class="btn btn-dark">
+                </div>
             </form>
             <br />
             <br />
             {% if label %}
-            <img src="{{image}}" width="244" height="244" />
-            <p>Predicted : {{label}}</p>
-            <p>Confidence : {{prob}}</p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">Uploaded</div>
+                <img src="{{image}}" class="card-img-top" alt="predicted image" width="244" height="244">
+                <div class="card-body">
+                    <h5 class="card-title">Identification</h5>
+                    <p class="card-text">Predicted : {{label}}</p>
+                    <p class="card-text">Confidence : {{prob}}</p>
+                </div>
+            </div>
             {% endif %}
         </main>
 
