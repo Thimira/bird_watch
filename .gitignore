@@ -4,6 +4,7 @@ uploads/*
 !uploads/.gitkeep
 static/images/*
 !static/images/.gitkeep
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
