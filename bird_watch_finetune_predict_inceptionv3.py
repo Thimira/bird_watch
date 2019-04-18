@@ -20,6 +20,15 @@ train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 final_model_path ='data/models/final_model_InceptionV3.h5'
 
+def get_top_predictions(preds, class_map, top=5):
+    results = []
+    for pred in preds:
+        top_indices = pred.argsort()[-top:][::-1]
+        result = [(class_map[i], pred[i]) for i in top_indices]
+        result.sort(key=lambda x: x[1], reverse=True)
+        results.append(result)
+    return results[0]
+
 def predict():
     class_dictionary = np.load('data/models/class_indices.npy').item()
 
@@ -42,12 +51,6 @@ def predict():
         # the (samples, height, width, depth) structure
         image = np.expand_dims(image, axis=0)
 
-        # get the bottleneck prediction from the pre-trained VGG16 model
-        # bottleneck_prediction = model.predict(image)
-
-        # use the bottleneck prediction on the top model to get the final classification
-        # class_predicted = model.predict_classes(image)
-
         # get the probabilities for the prediction
         probabilities = model.predict(image)
 
@@ -60,6 +63,13 @@ def predict():
         # invert the class dictionary in order to get the label for the id
         inv_map = {v: k for k, v in class_dictionary.items()}
         label = inv_map[inID]
+
+        results = get_top_predictions(probabilities, class_map=inv_map, top=5)
+
+        print(results)
+        print(results[0])
+        print(results[0][0])
+        print(results[0][1])
 
         image_filename = os.path.basename(image_path)
         image_filename = os.path.splitext(image_filename)[0]
