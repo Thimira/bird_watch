@@ -1,0 +1,1 @@
+Please place the **class_indices.npy** and the **final_model_\*.h5** files - available from the 'Releases' - in this directory 
