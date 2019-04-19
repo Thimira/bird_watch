@@ -5,6 +5,8 @@ uploads/*
 static/images/*
 !static/images/.gitkeep
 .vscode
+models/*.h5
+models/*.npy
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
