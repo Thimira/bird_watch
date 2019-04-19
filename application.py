@@ -55,8 +55,7 @@ def classify_image(image):
     inv_map = {v: k for k, v in class_dictionary.items()}
     label = inv_map[inID]
 
-    print(label)
-    print(prediction_probability)
+    print("Predicted: {}, Confidence: {}".format(label, prediction_probability))
 
     return label, prediction_probability
 
