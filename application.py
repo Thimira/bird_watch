@@ -61,7 +61,7 @@ def classify_image(image):
     return label, prediction_probability
 
 def get_iamge_thumbnail(image):
-    # image = image.convert("RGB")
+    image = image.convert("RGB")
     with BytesIO() as buffer:
         image.save(buffer, 'jpeg')
         return base64.b64encode(buffer.getvalue()).decode()
