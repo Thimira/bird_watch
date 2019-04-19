@@ -6,8 +6,12 @@ import tensorflow as tf
 from keras.preprocessing.image import img_to_array, load_img
 from keras.models import Model, load_model
 from keras.utils.np_utils import to_categorical
+from PIL import Image
+from io import BytesIO
 import os
 import sys
+import base64
+
 
 # https://github.com/tensorflow/tensorflow/issues/24828
 from tensorflow.keras.backend import set_session
@@ -27,8 +31,7 @@ global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
 
-def classify_image(image_path):
-    image = load_img(image_path, target_size=(img_width, img_height))
+def classify_image(image):
     image = img_to_array(image)
 
     # important! otherwise the predictions will be '0'
@@ -57,6 +60,12 @@ def classify_image(image_path):
 
     return label, prediction_probability
 
+def get_iamge_thumbnail(image):
+    # image = image.convert("RGB")
+    with BytesIO() as buffer:
+        image.save(buffer, 'jpeg')
+        return base64.b64encode(buffer.getvalue()).decode()
+
 def index():
     if request.method == 'GET':
         with application.app_context():
@@ -66,15 +75,19 @@ def index():
         f = request.files['bird_image']
         sec_filename = secure_filename(f.filename)
         sec_filename = sec_filename.replace(" ", "_")
-        image_path = './static/images/' + sec_filename
+        image_path = './uploads/' + sec_filename
         f.save(image_path)
 
-        image_url = url_for('static', filename='images/' + sec_filename)
+        image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
 
-        label, prediction_probability = classify_image(image_path=image_path)
+        label, prediction_probability = classify_image(image=image)
+
+        image_data = get_iamge_thumbnail(image=image)
+
+        os.remove(image_path)
 
         with application.app_context():
-            return render_template('index.html', label=label, prob=prediction_probability, image=image_url)
+            return render_template('index.html', label=label, prob=prediction_probability, image=image_data)
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)

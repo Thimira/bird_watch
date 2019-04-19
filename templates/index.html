@@ -62,7 +62,7 @@
             {% if label %}
             <div class="card" style="width: 18rem;">
                 <div class="card-header">Uploaded</div>
-                <img src="{{image}}" class="card-img-top" alt="predicted image" width="244" height="244">
+                <img src="data:image/jpeg;base64,{{image}}" class="card-img-top" alt="predicted image">
                 <div class="card-body">
                     <h5 class="card-title">Identification</h5>
                     <p class="card-text">Predicted : {{label}}</p>
