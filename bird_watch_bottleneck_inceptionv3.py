@@ -61,7 +61,8 @@ def save_bottlebeck_features():
         target_size=(img_width, img_height),
         batch_size=batch_size,
         class_mode=None,
-        shuffle=False)
+        shuffle=False,
+        interpolation='lanczos')
 
     print(len(generator.filenames))
     print(generator.class_indices)
@@ -86,7 +87,8 @@ def save_bottlebeck_features():
         target_size=(img_width, img_height),
         batch_size=batch_size,
         class_mode=None,
-        shuffle=False)
+        shuffle=False,
+        interpolation='lanczos')
 
     nb_validation_samples = len(generator.filenames)
 
@@ -117,7 +119,8 @@ def train_top_model():
         target_size=(img_width, img_height),
         batch_size=batch_size,
         class_mode='categorical',
-        shuffle=False)
+        shuffle=False,
+        interpolation='lanczos')
 
     num_classes = len(generator_top.class_indices)
 
@@ -139,7 +142,8 @@ def train_top_model():
         target_size=(img_width, img_height),
         batch_size=batch_size,
         class_mode='categorical',
-        shuffle=False)
+        shuffle=False,
+        interpolation='lanczos')
 
     # load the bottleneck features for the validation data saved earlier
     validation_data = np.load(bottleneck_features_validation_path)
@@ -215,7 +219,7 @@ def predict():
 
     for image_path in image_paths:
         orig = cv2.imread(image_path)
-        image = load_img(image_path, target_size=(img_width, img_height))
+        image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
         image = img_to_array(image)
 
         # important! otherwise the predictions will be '0'

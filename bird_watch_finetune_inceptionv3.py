@@ -37,7 +37,8 @@ train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_height, img_width),
     batch_size=batch_size,
-    class_mode='categorical')
+    class_mode='categorical',
+    interpolation='lanczos')
 
 nb_train_samples = len(train_generator.filenames)
 
@@ -49,7 +50,8 @@ validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_height, img_width),
     batch_size=batch_size,
-    class_mode='categorical')
+    class_mode='categorical',
+    interpolation='lanczos')
 
 nb_validation_samples = len(validation_generator.filenames)
 

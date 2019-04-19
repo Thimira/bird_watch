@@ -41,7 +41,7 @@ def predict():
 
     for image_path in image_paths:
         orig = cv2.imread(image_path)
-        image = load_img(image_path, target_size=(img_width, img_height))
+        image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
         image = img_to_array(image)
 
         # important! otherwise the predictions will be '0'
