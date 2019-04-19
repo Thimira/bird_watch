@@ -11,6 +11,7 @@ from io import BytesIO
 import os
 import sys
 import base64
+import uuid
 
 
 # https://github.com/tensorflow/tensorflow/issues/24828
@@ -73,8 +74,9 @@ def index():
     if request.method == 'POST':
         f = request.files['bird_image']
         sec_filename = secure_filename(f.filename)
-        sec_filename = sec_filename.replace(" ", "_")
-        image_path = './uploads/' + sec_filename
+        file_extension = os.path.splitext(sec_filename)[1]
+        file_tempname = uuid.uuid4().hex
+        image_path = './uploads/' + file_tempname + file_extension
         f.save(image_path)
 
         image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
