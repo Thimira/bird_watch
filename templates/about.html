@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">How it Works</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
+    </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-warning" role="alert">
+        <h5 class="alert-heading">Disclaimer:</h5>
+        <ul>
+            <li>This is still an Alpha release. There are still many limitations.</li>
+            <li>Currently only identifies the following species of birds:
+                <ul>
+                    <li>Alexandrine Parakeet</li>
+                    <li>Black-headed Ibis</li>
+                    <li>Chestnut-headed Bee-eater</li>
+                    <li>Cotton Pygmy Goose</li>
+                    <li>Crested Serpent Eagle</li>
+                    <li>Egret</li>
+                    <li>Great Cormorant</li>
+                    <li>Indian Peafowl</li>
+                    <li>Lesser Whistling Duck</li>
+                    <li>Malabar Pied Hornbill</li>
+                    <li>Mandarin</li>
+                    <li>Owl</li>
+                    <li>Painted Stork</li>
+                    <li>Puffin</li>
+                    <li>Toucan</li>
+                    <li>Wood Duck</li>
+                </ul>
+            </li>
+            <li>The images you upload <strong>WILL NOT</strong> be kept in any way. The uploaded image data will be discarded on each request.</li>
+        </ul>
+        <p class="mb-0">The code of this application is available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>.</p>
+    </div>
+{% endblock %}  

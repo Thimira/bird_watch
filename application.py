@@ -90,11 +90,16 @@ def index():
         with application.app_context():
             return render_template('index.html', label=label, prob=prediction_probability, image=image_data)
 
+def about():
+    return render_template('about.html')
+
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
 # add a rule for the index page.
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
+
+application.add_url_rule('/about', 'about', about, methods=['GET'])
 
 # run the app.
 if __name__ == "__main__":
