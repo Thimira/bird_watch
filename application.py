@@ -13,7 +13,6 @@ import sys
 import base64
 import uuid
 
-
 # https://github.com/tensorflow/tensorflow/issues/24828
 from tensorflow.keras.backend import set_session
 config = tf.ConfigProto()
@@ -24,7 +23,7 @@ set_session(session)
 # dimensions of our images.
 img_width, img_height = 224, 224
 
-final_model_path ='models/final_model_InceptionV3.h5'
+final_model_path ='models/final_model_004.h5'
 
 class_dictionary = np.load('models/class_indices.npy').item()
 
