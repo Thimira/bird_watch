@@ -77,8 +77,11 @@ def index():
         file_tempname = uuid.uuid4().hex
         image_path = './uploads/' + file_tempname + file_extension
         f.save(image_path)
+        file_size = os.path.getsize(image_path)
 
         image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
+
+        orig_width, orig_height = Image.open(image_path).size
 
         label, prediction_probability = classify_image(image=image)
 
@@ -89,7 +92,15 @@ def index():
         os.remove(image_path)
 
         with application.app_context():
-            return render_template('index.html', label=label, prob=prediction_probability, image=image_data)
+            return render_template('index.html', 
+                                    label=label, 
+                                    prob=prediction_probability, 
+                                    image=image_data,
+                                    file_name=sec_filename,
+                                    file_size=file_size,
+                                    width=orig_width,
+                                    height=orig_height
+                                    )
 
 def about():
     return render_template('about.html')

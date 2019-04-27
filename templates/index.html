@@ -31,17 +31,31 @@
         </div>
     </form>
     <br />
-    <br />
     {% if label %}
-    <div class="card" style="width: 20rem;">
-        <div class="card-header">Uploaded</div>
-        <img src="data:image/jpeg;base64,{{image}}" class="card-img-top" alt="predicted image">
-        <div class="card-body">
-            <h5 class="card-title">Identification</h5>
-            <p class="card-text">Predicted : {{label}}</p>
-            <p class="card-text">Confidence : {{prob}} %</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="data:image/jpeg;base64,{{image}}" class="card-img-top" alt="predicted image">
+                    <div class="card-body">
+                        <h5 class="card-title">Uploaded</h5>
+                        <p class="card-text">File Name : {{file_name}}</p>
+                        <p class="card-text">File Size : {{file_size}}</p>
+                        <p class="card-text">Resolution : {{width}} X {{height}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Identification</h5>
+                        <p class="card-text">Predicted : {{label}}</p>
+                        <p class="card-text">Confidence [0-100] : {{prob}} %</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </div>    
     {% endif %}
     <br />
     <div class="alert alert-warning" role="alert">
@@ -72,4 +86,8 @@
         </ul>
         <p class="mb-0">The code of this application is available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>.</p>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
 {% endblock %}  
