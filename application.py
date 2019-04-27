@@ -83,6 +83,8 @@ def index():
 
         label, prediction_probability = classify_image(image=image)
 
+        prediction_probability = np.around(prediction_probability * 100, decimals=4)
+
         image_data = get_iamge_thumbnail(image=image)
 
         os.remove(image_path)
