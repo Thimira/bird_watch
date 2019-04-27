@@ -24,10 +24,10 @@ args = vars(ap.parse_args())
 # dimensions of our images.
 img_width, img_height = 224, 224
 
-bottleneck_features_train_path = 'data/models/bottleneck_features_train-X.npy'
-bottleneck_features_validation_path = 'data/models/bottleneck_features_validation-X.npy'
+bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
+bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_InceptionV3-X.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_004.h5'
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
@@ -183,7 +183,7 @@ def train_top_model():
     plt.title('Model Accuracy')
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
-    plt.legend(['Training', 'Validation'], loc='upper left')
+    plt.legend(['Training', 'Validation'], loc='lower right')
 
     # summarize history for loss
 
@@ -193,7 +193,7 @@ def train_top_model():
     plt.title('Model Loss')
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
-    plt.legend(['Training', 'Validation'], loc='upper left')
+    plt.legend(['Training', 'Validation'], loc='upper right')
 
     plt.tight_layout()
     plt.show()
