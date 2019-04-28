@@ -15,10 +15,8 @@ import sys
 # dimensions of our images.
 img_width, img_height = 224, 224
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_InceptionV3.h5'
-train_data_dir = 'data/train'
-validation_data_dir = 'data/validation'
-final_model_path ='data/models/final_model_InceptionV3.h5'
+final_model_path ='data/models/final_model_005.h5'
+class_indices_path = 'data/models/class_indices_005.npy'
 
 def get_top_predictions(preds, class_map, top=5):
     results = []
@@ -30,7 +28,7 @@ def get_top_predictions(preds, class_map, top=5):
     return results[0]
 
 def predict():
-    class_dictionary = np.load('data/models/class_indices.npy').item()
+    class_dictionary = np.load(class_indices_path).item()
 
     model = load_model(final_model_path)
 
