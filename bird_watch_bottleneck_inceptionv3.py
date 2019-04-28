@@ -1,3 +1,10 @@
+'''
+Train bottleneck features,
+python bird_watch_bottleneck_inceptionv3.py --bottleneck-save 1 --top-model-train 1
+
+Evaluate,
+python bird_watch_bottleneck_inceptionv3.py --predict 1
+'''
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
 from keras.models import Sequential, Model
@@ -27,14 +34,14 @@ img_width, img_height = 224, 224
 bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
 bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_004.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_005.h5'
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
 eval_image_path = './data/eval/'
 
-class_indices_path = 'data/models/class_indices.npy'
+class_indices_path = 'data/models/class_indices_005.npy'
 
 # number of epochs to train top model
 epochs = 50

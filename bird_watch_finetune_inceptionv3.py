@@ -11,11 +11,11 @@ import math
 # dimensions of our images.
 img_width, img_height = 224, 224
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_004.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_005.h5'
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
-final_model_path ='data/models/final_model_004.h5'
+final_model_path ='data/models/final_model_005.h5'
 
 # number of epochs to train top model
 epochs = 50
