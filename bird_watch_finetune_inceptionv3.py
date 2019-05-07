@@ -18,9 +18,9 @@ validation_data_dir = 'data/validation'
 final_model_path ='data/models/final_model_005.h5'
 
 # number of epochs to train top model
-epochs = 50
+epochs = 100
 # batch size used by flow_from_directory and predict_generator
-batch_size = 16
+batch_size = 128
 
 # prepare data augmentation configuration
 train_datagen = ImageDataGenerator(

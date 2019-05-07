@@ -44,9 +44,9 @@ eval_image_path = './data/eval/'
 class_indices_path = 'data/models/class_indices_005.npy'
 
 # number of epochs to train top model
-epochs = 50
+epochs = 100
 # batch size used by flow_from_directory and predict_generator
-batch_size = 16
+batch_size = 128
 
 
 def save_bottlebeck_features():
