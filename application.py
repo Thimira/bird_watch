@@ -21,11 +21,11 @@ session = tf.Session(config=config)
 set_session(session)
 
 # dimensions of our images.
-img_width, img_height = 224, 224
+img_width, img_height = 400, 400
 
-final_model_path ='models/final_model_004.h5'
+final_model_path ='models/final_model_005.h5'
 
-class_dictionary = np.load('models/class_indices.npy').item()
+class_dictionary = np.load('models/class_indices_005.npy').item()
 
 global model, graph
 graph = tf.get_default_graph()
