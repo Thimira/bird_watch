@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import math
 
 # dimensions of our images.
-img_width, img_height = 224, 224
+img_width, img_height = 400, 400
 
 top_model_weights_path = 'data/models/bottleneck_fc_model_005.h5'
 train_data_dir = 'data/train'

@@ -13,7 +13,7 @@ import os
 import sys
 
 # dimensions of our images.
-img_width, img_height = 224, 224
+img_width, img_height = 400, 400
 
 final_model_path ='data/models/final_model_005.h5'
 class_indices_path = 'data/models/class_indices_005.npy'

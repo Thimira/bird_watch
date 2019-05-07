@@ -29,7 +29,7 @@ ap.add_argument("-p", "--predict", type=int, default=-1,
 args = vars(ap.parse_args())
 
 # dimensions of our images.
-img_width, img_height = 224, 224
+img_width, img_height = 400, 400
 
 bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
 bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
