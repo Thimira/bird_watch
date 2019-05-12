@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for, make_response
+from flask import Flask, request, render_template, url_for, make_response, send_from_directory
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -129,6 +129,9 @@ def sitemap():
     except Exception as e:
         return(str(e))
 
+def robots():
+    return send_from_directory(application.static_folder, 'robots.txt')
+
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
@@ -138,6 +141,7 @@ application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 application.add_url_rule('/about', 'about', about, methods=['GET'])
 
 application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
+application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])
 
 # run the app.
 if __name__ == "__main__":
