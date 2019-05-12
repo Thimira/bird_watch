@@ -30,14 +30,13 @@ datagen = ImageDataGenerator(
                     zoom_range=0.2,
                     horizontal_flip=True,
                     fill_mode='nearest',
-                    validation_split=0.2)
+                    validation_split=0.1)
 
 train_generator = datagen.flow_from_directory(
                     train_data_dir,
                     target_size=(img_width, img_height),
                     batch_size=batch_size,
                     class_mode='categorical',
-                    shuffle=False,
                     interpolation='lanczos',
                     subset='training')
 
@@ -46,7 +45,6 @@ validation_generator = datagen.flow_from_directory(
                     target_size=(img_width, img_height),
                     batch_size=batch_size,
                     class_mode='categorical',
-                    shuffle=False,
                     interpolation='lanczos',
                     subset='validation')
 
@@ -60,41 +58,6 @@ print("[Info] Class Labels: {}".format(train_generator.class_indices))
 
 train_steps = int(math.ceil(nb_train_samples / batch_size))
 validation_steps = int(math.ceil(nb_validation_samples / batch_size))
-
-
-# train_datagen = ImageDataGenerator(
-#     rescale=1. / 255,
-#     rotation_range=40,
-#     shear_range=0.2,
-#     zoom_range=0.2,
-#     horizontal_flip=True,
-#     fill_mode='nearest')
-
-# test_datagen = ImageDataGenerator(rescale=1. / 255)
-
-# train_generator = train_datagen.flow_from_directory(
-#     train_data_dir,
-#     target_size=(img_height, img_width),
-#     batch_size=batch_size,
-#     class_mode='categorical',
-#     interpolation='lanczos')
-
-# nb_train_samples = len(train_generator.filenames)
-
-# num_classes = len(train_generator.class_indices)
-
-
-
-# validation_generator = test_datagen.flow_from_directory(
-#     validation_data_dir,
-#     target_size=(img_height, img_width),
-#     batch_size=batch_size,
-#     class_mode='categorical',
-#     interpolation='lanczos')
-
-# nb_validation_samples = len(validation_generator.filenames)
-
-
 
 input_tensor = Input(shape=(img_width, img_height, 3))
 

@@ -31,17 +31,17 @@ args = vars(ap.parse_args())
 # dimensions of our images.
 img_width, img_height = 400, 400
 
-bottleneck_features_train_path = 'data/models/bottleneck_features_train_2.npy'
-bottleneck_features_validation_path = 'data/models/bottleneck_features_validation_2.npy'
+bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
+bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_005.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_006.h5'
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
 eval_image_path = './data/eval/'
 
-class_indices_path = 'data/models/class_indices_005.npy'
+class_indices_path = 'data/models/class_indices_006.npy'
 
 # number of epochs to train top model
 epochs = 100
@@ -55,7 +55,7 @@ datagen = ImageDataGenerator(
                     zoom_range=0.2,
                     horizontal_flip=True,
                     fill_mode='nearest',
-                    validation_split=0.2)
+                    validation_split=0.1)
 
 train_generator = datagen.flow_from_directory(
                     train_data_dir,
