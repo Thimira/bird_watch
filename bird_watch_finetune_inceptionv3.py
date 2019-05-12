@@ -107,6 +107,8 @@ print("\n")
 print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
 print("[INFO] Loss: {}".format(eval_loss))
 
+plt.style.use('ggplot')
+
 plt.figure(1)
 
 # summarize history for accuracy

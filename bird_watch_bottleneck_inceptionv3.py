@@ -180,6 +180,8 @@ def train_top_model():
 
     print("\n")
 
+    plt.style.use('ggplot')
+
     plt.figure(1)
 
     # summarize history for accuracy
