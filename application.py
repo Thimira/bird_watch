@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, make_response
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -12,6 +12,7 @@ import os
 import sys
 import base64
 import uuid
+from datetime import datetime, timedelta
 
 # https://github.com/tensorflow/tensorflow/issues/24828
 from tensorflow.keras.backend import set_session
@@ -19,6 +20,9 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 set_session(session)
+
+'''The domain name we will be using for our website. This will be used for SEO'''
+site_domain = "http://www.birdwatch.photo"
 
 # dimensions of our images.
 img_width, img_height = 400, 400
@@ -105,6 +109,26 @@ def index():
 def about():
     return render_template('about.html')
 
+def sitemap():
+    try:
+        """Generate sitemap.xml. Makes a list of urls and date modified."""
+        pages=[]
+        one_week = (datetime.now() - timedelta(days=7)).date().isoformat()
+        # static pages
+        for rule in application.url_map.iter_rules():
+            if "GET" in rule.methods and len(rule.arguments)==0:
+                pages.append(
+                            [site_domain + str(rule.rule), one_week]
+                            )
+
+        sitemap_xml = render_template('sitemap_template.xml', pages=pages)
+        response = make_response(sitemap_xml)
+        response.headers["Content-Type"] = "application/xml"    
+
+        return response
+    except Exception as e:
+        return(str(e))
+
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
@@ -112,6 +136,8 @@ application = Flask(__name__)
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 
 application.add_url_rule('/about', 'about', about, methods=['GET'])
+
+application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
 
 # run the app.
 if __name__ == "__main__":
