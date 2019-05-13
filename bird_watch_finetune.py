@@ -11,11 +11,11 @@ import math
 # dimensions of our images.
 img_width, img_height = 400, 400
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_005.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_006.h5'
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
-final_model_path ='data/models/final_model_005.h5'
+final_model_path ='data/models/final_model_006.h5'
 
 # number of epochs to train top model
 epochs = 100
@@ -62,7 +62,7 @@ validation_steps = int(math.ceil(nb_validation_samples / batch_size))
 input_tensor = Input(shape=(img_width, img_height, 3))
 
 # build the InceptionV3 network
-base_model = InceptionV3(weights='imagenet', include_top= False, input_tensor=input_tensor)
+base_model = InceptionV3(weights='imagenet', include_top=False, input_tensor=input_tensor)
 print("[Info] Model loaded.")
 
 i = Input(shape=base_model.output_shape[1:])
