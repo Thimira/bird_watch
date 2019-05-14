@@ -109,6 +109,9 @@ def index():
 def about():
     return render_template('about.html')
 
+def howitworks():
+    return render_template('howitworks.html')
+
 def sitemap():
     try:
         """Generate sitemap.xml. Makes a list of urls and date modified."""
@@ -139,6 +142,7 @@ application = Flask(__name__)
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 
 application.add_url_rule('/about', 'about', about, methods=['GET'])
+application.add_url_rule('/howitworks', 'howitworks', howitworks, methods=['GET'])
 
 application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
 application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])

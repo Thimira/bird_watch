@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block metadesc %}How Bird Watch - the Deep Learning/AI based bird image identification system - works.{% endblock %}
+
+{% block title %}Bird Watch: How it Works{% endblock %}
+
+{% block navbar %}
+<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="#">How it Works <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+    </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+    <div class="center-content">
+        <h1>Bird Watch: How it Works</h1>
+        <p class="lead">The application is developed using Keras and TensorFlow, with Flask for the web application. InceptionV3 was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
+        <p class="lead">The system can currently identify the following 222 species of birds:</p>
+    </div>
+    <img src="{{ url_for('static', filename='model.png') }}" class="img-fluid" alt="The deep learning model structure of bird watch">
+    <br />
+    <br />
+    <br />
+    <br />
+{% endblock %}  
