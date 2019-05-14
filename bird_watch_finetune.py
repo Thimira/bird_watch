@@ -5,6 +5,7 @@ from keras.layers import Dropout, Flatten, Dense, GlobalAveragePooling2D, Input
 from keras.applications.inception_v3 import InceptionV3
 from keras import optimizers
 from keras.utils.np_utils import to_categorical
+from keras.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
 import math
 
@@ -20,7 +21,7 @@ final_model_path ='data/models/final_model_006.h5'
 # number of epochs to train top model
 epochs = 100
 # batch size used by flow_from_directory and predict_generator
-batch_size = 128
+batch_size = 64
 
 # prepare data augmentation configuration
 datagen = ImageDataGenerator(
@@ -68,7 +69,7 @@ print("[Info] Model loaded.")
 i = Input(shape=base_model.output_shape[1:])
 x = GlobalAveragePooling2D()(i)
 x = Dense(1024, activation='relu')(x)
-x = Dropout(0.5)(x)
+x = Dropout(0.3)(x)
 pred = Dense(num_classes, activation='softmax')(x)
 top_model = Model(inputs=i, outputs=pred)
 
@@ -91,12 +92,17 @@ model.compile(loss='categorical_crossentropy',
               optimizer=optimizers.SGD(lr=1e-4, momentum=0.9),
               metrics=['accuracy'])
 
+filepath="data/models/checkpoints/model-{epoch:02d}-{val_acc:.2f}.h5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='max')
+callbacks_list = [checkpoint]
+
 history = model.fit_generator(
     train_generator,
     steps_per_epoch=train_steps,
     epochs=epochs,
     validation_data=validation_generator,
-    validation_steps=validation_steps)
+    validation_steps=validation_steps,
+    callbacks=callbacks_list)
 
 (eval_loss, eval_accuracy) = model.evaluate_generator(
     validation_generator,
