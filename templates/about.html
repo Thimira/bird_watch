@@ -21,37 +21,88 @@
 {% endblock %}
 
 {% block content %}
+    <div class="center-content">
+        <h1>Bird Watch</h1>
+        <p class="lead">A Deep Learning / AI based Bird Image Identification System.</p>
+        <p class="lead">The 'Bird Watch' project, created by an amateur photographer and a machine learning enthusiast, is a solution to a simple problem faced by fellow wildlife photographers: a way to identify birds in their photographs. The application is developed using Keras and TensorFlow, with Flask for the web application.</p>
+        <p class="lead">The system can currently identify the following 222 species of birds:</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr><td>Acadian Flycatcher</td><td>Cotton Pygmy Goose</td><td>Long tailed Jaeger</td><td>Scott Oriole</td></tr>
+                <tr><td>Alexandrine Parakeet</td><td>Crested Auklet</td><td>Louisiana Waterthrush</td><td>Seaside Sparrow</td></tr>
+                <tr><td>American Crow</td><td>Crested Serpent Eagle</td><td>Magnolia Warbler</td><td>Shiny Cowbird</td></tr>
+                <tr><td>American Goldfinch</td><td>Dark eyed Junco</td><td>Malabar Pied Hornbill</td><td>Slaty backed Gull</td></tr>
+                <tr><td>American Pipit</td><td>Downy Woodpecker</td><td>Mallard</td><td>Song Sparrow</td></tr>
+                <tr><td>American Redstart</td><td>Eared Grebe</td><td>Mandarin</td><td>Sooty Albatross</td></tr>
+                <tr><td>American Three toed Woodpecker</td><td>Eastern Towhee</td><td>Mangrove Cuckoo</td><td>Spotted Catbird</td></tr>
+                <tr><td>Anna Hummingbird</td><td>Egret</td><td>Marsh Wren</td><td>Sri Lanka Grey Hornbill</td></tr>
+                <tr><td>Artic Tern</td><td>Elegant Tern</td><td>Mockingbird</td><td>Sri Lanka Junglefowl</td></tr>
+                <tr><td>Atlantic Puffin</td><td>European Goldfinch</td><td>Mourning Warbler</td><td>Sri Lanka Spurfowl</td></tr>
+                <tr><td>Baird Sparrow</td><td>Evening Grosbeak</td><td>Myrtle Warbler</td><td>Summer Tanager</td></tr>
+                <tr><td>Baltimore Oriole</td><td>Field Sparrow</td><td>Nashville Warbler</td><td>Swainson Warbler</td></tr>
+                <tr><td>Bank Swallow</td><td>Fish Crow</td><td>Nelson Sharp tailed Sparrow</td><td>Tennessee Warbler</td></tr>
+                <tr><td>Barn Swallow</td><td>Florida Jay</td><td>Nighthawk</td><td>Toucan</td></tr>
+                <tr><td>Bay breasted Warbler</td><td>Forsters Tern</td><td>Northern Flicker</td><td>Tree Sparrow</td></tr>
+                <tr><td>Belted Kingfisher</td><td>Fox Sparrow</td><td>Northern Fulmar</td><td>Tree Swallow</td></tr>
+                <tr><td>Bewick Wren</td><td>Frigatebird</td><td>Northern Waterthrush</td><td>Tropical Kingbird</td></tr>
+                <tr><td>Black and white Warbler</td><td>Gadwall</td><td>Olive sided Flycatcher</td><td>Vermilion Flycatcher</td></tr>
+                <tr><td>Black billed Cuckoo</td><td>Geococcyx</td><td>Orange crowned Warbler</td><td>Vesper Sparrow</td></tr>
+                <tr><td>Black capped Vireo</td><td>Glaucous winged Gull</td><td>Orchard Oriole</td><td>Warbling Vireo</td></tr>
+                <tr><td>Black footed Albatross</td><td>Golden winged Warbler</td><td>Ovenbird</td><td>Western Grebe</td></tr>
+                <tr><td>Black Tern</td><td>Grasshopper Sparrow</td><td>Owl</td><td>Western Gull</td></tr>
+                <tr><td>Black throated Blue Warbler</td><td>Gray Catbird</td><td>Pacific Loon</td><td>Western Meadowlark</td></tr>
+                <tr><td>Black throated Sparrow</td><td>Gray crowned Rosy Finch</td><td>Painted Bunting</td><td>Western Wood Pewee</td></tr>
+                <tr><td>Black-headed Ibis</td><td>Gray Kingbird</td><td>Painted Stork</td><td>Whip poor Will</td></tr>
+                <tr><td>Blue Grosbeak</td><td>Great Cormorant</td><td>Palm Warbler</td><td>White breasted Kingfisher</td></tr>
+                <tr><td>Blue headed Vireo</td><td>Great Crested Flycatcher</td><td>Parakeet Auklet</td><td>White breasted Nuthatch</td></tr>
+                <tr><td>Blue Jay</td><td>Great Grey Shrike</td><td>Pelagic Cormorant</td><td>White crowned Sparrow</td></tr>
+                <tr><td>Blue winged Warbler</td><td>Green Bee-eater</td><td>Philadelphia Vireo</td><td>White eyed Vireo</td></tr>
+                <tr><td>Blue-tailed Bee-eater</td><td>Green Jay</td><td>Pied billed Grebe</td><td>White necked Raven</td></tr>
+                <tr><td>Boat tailed Grackle</td><td>Green Kingfisher</td><td>Pied Kingfisher</td><td>White Pelican</td></tr>
+                <tr><td>Bobolink</td><td>Green tailed Towhee</td><td>Pigeon Guillemot</td><td>White throated Sparrow</td></tr>
+                <tr><td>Bohemian Waxwing</td><td>Green Violetear</td><td>Pileated Woodpecker</td><td>Wilson Warbler</td></tr>
+                <tr><td>Brandt Cormorant</td><td>Groove billed Ani</td><td>Pine Grosbeak</td><td>Winter Wren</td></tr>
+                <tr><td>Brewer Blackbird</td><td>Harris Sparrow</td><td>Pine Warbler</td><td>Wood Duck</td></tr>
+                <tr><td>Brewer Sparrow</td><td>Heermann Gull</td><td>Pomarine Jaeger</td><td>Worm eating Warbler</td></tr>
+                <tr><td>Bronzed Cowbird</td><td>Henslow Sparrow</td><td>Prairie Warbler</td><td>Yellow bellied Flycatcher</td></tr>
+                <tr><td>Brown Creeper</td><td>Herring Gull</td><td>Prothonotary Warbler</td><td>Yellow billed Cuckoo</td></tr>
+                <tr><td>Brown Pelican</td><td>Hooded Merganser</td><td>Purple Finch</td><td>Yellow breasted Chat</td></tr>
+                <tr><td>Brown Thrasher</td><td>Hooded Oriole</td><td>Red bellied Woodpecker</td><td>Yellow headed Blackbird</td></tr>
+                <tr><td>Cactus Wren</td><td>Hooded Warbler</td><td>Red breasted Merganser</td><td>Yellow throated Vireo</td></tr>
+                <tr><td>California Gull</td><td>Horned Grebe</td><td>Red cockaded Woodpecker</td><td>Yellow Warbler</td></tr>
+                <tr><td>Canada Warbler</td><td>Horned Lark</td><td>Red eyed Vireo</td><td>&nbsp;</td></tr>
+                <tr><td>Cape Glossy Starling</td><td>Horned Puffin</td><td>Red faced Cormorant</td><td>&nbsp;</td></tr>
+                <tr><td>Cape May Warbler</td><td>House Sparrow</td><td>Red headed Woodpecker</td><td>&nbsp;</td></tr>
+                <tr><td>Cardinal</td><td>House Wren</td><td>Red legged Kittiwake</td><td>&nbsp;</td></tr>
+                <tr><td>Carolina Wren</td><td>Indian Peafowl</td><td>Red winged Blackbird</td><td>&nbsp;</td></tr>
+                <tr><td>Caspian Tern</td><td>Indigo Bunting</td><td>Rhinoceros Auklet</td><td>&nbsp;</td></tr>
+                <tr><td>Cedar Waxwing</td><td>Ivory Gull</td><td>Ring billed Gull</td><td>&nbsp;</td></tr>
+                <tr><td>Cerulean Warbler</td><td>Kentucky Warbler</td><td>Ringed Kingfisher</td><td>&nbsp;</td></tr>
+                <tr><td>Chestnut sided Warbler</td><td>Laysan Albatross</td><td>Rock Wren</td><td>&nbsp;</td></tr>
+                <tr><td>Chestnut-headed Bee-eater</td><td>Lazuli Bunting</td><td>Rose breasted Grosbeak</td><td>&nbsp;</td></tr>
+                <tr><td>Chipping Sparrow</td><td>Le Conte Sparrow</td><td>Ruby throated Hummingbird</td><td>&nbsp;</td></tr>
+                <tr><td>Chuck will Widow</td><td>Least Auklet</td><td>Rufous Hummingbird</td><td>&nbsp;</td></tr>
+                <tr><td>Clark Nutcracker</td><td>Least Flycatcher</td><td>Rusty Blackbird</td><td>&nbsp;</td></tr>
+                <tr><td>Clay colored Sparrow</td><td>Least Tern</td><td>Sage Thrasher</td><td>&nbsp;</td></tr>
+                <tr><td>Cliff Swallow</td><td>Lesser Whistling Duck</td><td>Savannah Sparrow</td><td>&nbsp;</td></tr>
+                <tr><td>Common Raven</td><td>Lincoln Sparrow</td><td>Sayornis</td><td>&nbsp;</td></tr>
+                <tr><td>Common Tern</td><td>list.txt</td><td>Scarlet Tanager</td><td>&nbsp;</td></tr>
+                <tr><td>Common Yellowthroat</td><td>Loggerhead Shrike</td><td>Scissor tailed Flycatcher</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
     <div class="alert alert-warning" role="alert">
         <h5 class="alert-heading">Disclaimer:</h5>
         <ul>
-            <li>This is still an Alpha release. There are still many limitations. Miss-identification of birds are possible.</li>
-            <li>Currently only identifies the following 21 species of birds:
-                <ul>
-                    <li>Alexandrine Parakeet</li>
-                    <li>Black-headed Ibis</li>
-                    <li>Blue-tailed Bee-eater</li>
-                    <li>Chestnut-headed Bee-eater</li>
-                    <li>Cotton Pygmy Goose</li>
-                    <li>Crested Serpent Eagle</li>
-                    <li>Egret</li>
-                    <li>Great Cormorant</li>
-                    <li>Green Bee-eater</li>
-                    <li>Indian Peafowl</li>
-                    <li>Lesser Whistling Duck</li>
-                    <li>Malabar Pied Hornbill</li>
-                    <li>Mandarin</li>
-                    <li>Owl</li>
-                    <li>Painted Stork</li>
-                    <li>Puffin</li>
-                    <li>Sri Lanka Grey Hornbill</li>
-                    <li>Sri Lanka Junglefowl</li>
-                    <li>Sri Lanka Spurfowl</li>
-                    <li>Toucan</li>
-                    <li>Wood Duck</li>
-                </ul>
-            </li>
+            <li>This is still a <strong>Beta</strong> release. There are still many limitations. Miss-identification of birds are possible.</li>
             <li>The images you upload <strong>WILL NOT</strong> be kept in any way. The uploaded image data will be discarded on each request.</li>
         </ul>
         <p class="mb-0">The code of this application is available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>.</p>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
 {% endblock %}  
