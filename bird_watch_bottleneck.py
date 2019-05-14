@@ -42,11 +42,12 @@ validation_data_dir = 'data/validation'
 eval_image_path = './data/eval/'
 
 class_indices_path = 'data/models/class_indices_006.npy'
+train_data_shape_path = 'data/models/train_data_shape.npy'
 
 # number of epochs to train top model
 epochs = 100
 # batch size used by flow_from_directory and predict_generator
-batch_size = 128
+batch_size = 64
 
 datagen = ImageDataGenerator(
                     rescale=1. / 255,
@@ -79,9 +80,15 @@ nb_train_samples = len(train_generator.filenames)
 nb_validation_samples = len(validation_generator.filenames)
 num_classes = len(train_generator.class_indices)
 
+train_labels = train_generator.classes
+validation_labels = validation_generator.classes
+
 print("[Info] Dataset stats: Training: {} Validation: {}".format(nb_train_samples, nb_validation_samples))
 print("[Info] Number of Classes: {}".format(num_classes))
 print("[Info] Class Labels: {}".format(train_generator.class_indices))
+
+# save the class indices for use in the predictions
+np.save(class_indices_path, train_generator.class_indices)
 
 def save_bottlebeck_features():
     # build the InceptionV3 network
@@ -115,46 +122,43 @@ def build_top_model(input_shape, num_classes):
     i = Input(shape=input_shape)
     x = GlobalAveragePooling2D()(i)
     x = Dense(1024, activation='relu')(x)
-    x = Dropout(0.5)(x)
+    x = Dropout(0.3)(x)
     pred = Dense(num_classes, activation='softmax')(x)
     model = Model(inputs=i, outputs=pred)
 
     return model
 
 def train_top_model():
-    # save the class indices for use in the predictions
-    np.save(class_indices_path, train_generator.class_indices)
-
     # load the bottleneck features for the train data saved earlier
     train_data = np.load(bottleneck_features_train_path)
 
-    # get the class labels for the training data, in the original order
-    train_labels = train_generator.classes
+    train_data_shape = train_data.shape[1:]
+    np.save(train_data_shape_path, train_data_shape)
+    print("[INFO] Train data shape: {}".format(train_data_shape))
 
     # https://github.com/fchollet/keras/issues/3467
     # convert the training labels to categorical vectors
-    train_labels = to_categorical(train_labels, num_classes=num_classes)
+    train_labels_cat = to_categorical(train_labels, num_classes=num_classes)
 
     # load the bottleneck features for the validation data saved earlier
     validation_data = np.load(bottleneck_features_validation_path)
+    
+    validation_labels_cat = to_categorical(validation_labels, num_classes=num_classes)
 
-    validation_labels = validation_generator.classes
-    validation_labels = to_categorical(validation_labels, num_classes=num_classes)
-
-    model = build_top_model(input_shape=train_data.shape[1:], num_classes=num_classes)
+    model = build_top_model(input_shape=train_data_shape, num_classes=num_classes)
 
     model.compile(optimizer='rmsprop',
                   loss='categorical_crossentropy', metrics=['accuracy'])
 
-    history = model.fit(train_data, train_labels,
+    history = model.fit(train_data, train_labels_cat,
                         epochs=epochs,
                         batch_size=batch_size,
-                        validation_data=(validation_data, validation_labels))
+                        validation_data=(validation_data, validation_labels_cat))
 
     model.save_weights(top_model_weights_path)
 
     (eval_loss, eval_accuracy) = model.evaluate(
-        validation_data, validation_labels, batch_size=batch_size, verbose=1)
+        validation_data, validation_labels_cat, batch_size=batch_size, verbose=1)
 
     print("\n")
 
@@ -194,14 +198,15 @@ def train_top_model():
 def predict():
     class_dictionary = np.load(class_indices_path).item()
 
-    train_data_orig = np.load(bottleneck_features_train_path)
+    train_data_shape = np.load(train_data_shape_path)
+    print("[INFO] Data shape parameter loaded: {}".format(train_data_shape))
 
     num_classes = len(class_dictionary)
 
     # build the InceptionV3 network
     model = InceptionV3(include_top=False, weights='imagenet')
 
-    model_top = build_top_model(input_shape=train_data_orig.shape[1:], num_classes=num_classes)
+    model_top = build_top_model(input_shape=train_data_shape, num_classes=num_classes)
 
     model_top.load_weights(top_model_weights_path)
 
