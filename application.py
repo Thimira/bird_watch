@@ -27,9 +27,9 @@ site_domain = "http://www.birdwatch.photo"
 # dimensions of our images.
 img_width, img_height = 400, 400
 
-final_model_path ='models/final_model_005.h5'
+final_model_path ='models/final_model_010.h5'
 
-class_dictionary = np.load('models/class_indices_005.npy').item()
+class_dictionary = np.load('models/class_indices_010.npy').item()
 
 global model, graph
 graph = tf.get_default_graph()
