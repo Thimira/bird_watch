@@ -8,6 +8,7 @@ static/images/*
 models/*.h5
 models/*.npy
 *.zip
+conf/production.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

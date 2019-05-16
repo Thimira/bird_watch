@@ -13,6 +13,12 @@ import sys
 import base64
 import uuid
 from datetime import datetime, timedelta
+import configparser
+
+config = configparser.ConfigParser()
+config.read('conf/application.ini')
+
+app_config = config['default']
 
 # https://github.com/tensorflow/tensorflow/issues/24828
 from tensorflow.keras.backend import set_session
@@ -22,14 +28,15 @@ session = tf.Session(config=config)
 set_session(session)
 
 '''The domain name we will be using for our website. This will be used for SEO'''
-site_domain = "http://www.birdwatch.photo"
+site_domain = app_config.get('site_domain')
 
 # dimensions of our images.
-img_width, img_height = 400, 400
+img_width = app_config.getint('img_width')
+img_height = app_config.getint('img_height')
 
-final_model_path ='models/final_model_010.h5'
+final_model_path = app_config.get('final_model_path')
 
-class_dictionary = np.load('models/class_indices_010.npy').item()
+class_dictionary = np.load(app_config.get('class_dictionary_path')).item()
 
 global model, graph
 graph = tf.get_default_graph()
@@ -151,5 +158,5 @@ application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
-    application.debug = True
+    application.debug = app_config.getboolean('debug')
     application.run()
