@@ -72,6 +72,13 @@
                             " role="progressbar" style="width: {{prob}}%" aria-valuenow="{{prob}}" aria-valuemin="0" aria-valuemax="100">{{prob}} %</div>
                         </div>
                     </div>
+                    <div class="card-footer text-muted">
+                        <p class="card-text">Did we get it correct?</p>
+                        <span id='prediction_id' style="display:none">{{prediction_id}}</span>
+                        <a href="#" id="pred-correct" class="badge badge-success">Correct</a>
+                        <a href="#" id="pred-incorrect" class="badge badge-danger">Incorrect</a>
+                        <a href="#" id="pred-notsure" class="badge badge-info">Not sure</a>
+                    </div>
                 </div>
             </div>
         </div>

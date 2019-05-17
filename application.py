@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for, make_response, send_from_directory, flash, redirect
+from flask import Flask, request, render_template, url_for, make_response, send_from_directory, flash, redirect, jsonify
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -14,6 +14,8 @@ import base64
 import uuid
 from datetime import datetime, timedelta
 import configparser
+import boto3
+from decimal import Decimal
 
 config = configparser.ConfigParser()
 config.read('conf/application.ini')
@@ -26,6 +28,12 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 set_session(session)
+
+# Get the DynamoDB service resource.
+dynamodb = boto3.resource('dynamodb')
+dynamoDBClient = boto3.client('dynamodb')
+
+predictions_log = dynamodb.Table('birdwatch_predictions_log')
 
 '''The domain name we will be using for our website. This will be used for SEO'''
 site_domain = app_config.get('site_domain')
@@ -125,6 +133,8 @@ def index():
             label, prediction_probability = classify_image(image=image)
             prediction_probability = np.around(prediction_probability * 100, decimals=4)
 
+            prediction_id = log_prediction(prediction_label=label, prediction_confidence=prediction_probability)
+
             image_data = get_iamge_thumbnail(image=image)
 
             os.remove(image_path)
@@ -138,12 +148,49 @@ def index():
                                         file_size=file_size_str,
                                         width=orig_width,
                                         height=orig_height,
-                                        analytics_id=analytics_id
+                                        analytics_id=analytics_id,
+                                        prediction_id=prediction_id
                                         )
         else:
             print("[Error] Unauthorized file extension: {}".format(file_extension))
             flash("The file type you selected is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.")
             return redirect(url_for('index'))
+
+def log_prediction(prediction_label, prediction_confidence):
+    prediction_id = str(uuid.uuid4())
+    prediction_confidence = Decimal(str(prediction_confidence))
+    predictions_log.put_item(
+        Item={
+            'prediction_id': prediction_id,
+            'prediction_label': prediction_label,
+            'prediction_confidence': prediction_confidence,
+            'correctness': -1,
+        }
+    )
+    
+    item_count = predictions_log.item_count
+    print("[Info] Item count: {}".format(item_count))
+    # response = dynamoDBClient.describe_table(TableName='birdwatch_predictions_log')
+    # print(response['Table']['ItemCount'])
+    return prediction_id
+
+def set_correctness():
+    req_json = request.get_json()
+    prediction_id = req_json.get('prediction_id')
+    correctness = int(req_json.get('correctness'))
+    update_correctness(prediction_id=prediction_id, correctness=correctness)
+    return jsonify(success=True)
+
+def update_correctness(prediction_id, correctness):
+    predictions_log.update_item(
+        Key={
+            'prediction_id': prediction_id
+        },
+        UpdateExpression='SET correctness = :val1',
+        ExpressionAttributeValues={
+            ':val1': correctness
+        }
+    )
 
 def about():
     return render_template('about.html', analytics_id=analytics_id)
@@ -186,6 +233,9 @@ application.secret_key = app_config.get('application_secret')
 
 # add a rule for the index page.
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
+
+application.add_url_rule('/correctness', 'correctness', set_correctness, methods=['POST'])
+
 
 application.add_url_rule('/about', 'about', about, methods=['GET'])
 application.add_url_rule('/howitworks', 'howitworks', howitworks, methods=['GET'])
