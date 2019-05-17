@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for, make_response, send_from_directory
+from flask import Flask, request, render_template, url_for, make_response, send_from_directory, flash, redirect
 from werkzeug.utils import secure_filename
 
 import numpy as np
@@ -42,6 +42,8 @@ global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
 
+ALLOWED_FILETYPES = set(['.jpg',' .jpeg', '.gif', '.png'])
+
 def classify_image(image):
     image = img_to_array(image)
 
@@ -82,42 +84,59 @@ def index():
             return render_template('index.html')
 
     if request.method == 'POST':
+        # check if the post request has the file part
+        if 'bird_image' not in request.files:
+            flash('No file uploaded.')
+            return redirect(url_for('index'))
+        
         f = request.files['bird_image']
+
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if f.filename == '':
+            flash('No file selected to upload.')
+            return redirect(url_for('index'))
+
         sec_filename = secure_filename(f.filename)
         file_extension = os.path.splitext(sec_filename)[1]
-        file_tempname = uuid.uuid4().hex
-        image_path = './uploads/' + file_tempname + file_extension
-        f.save(image_path)
-        file_size = os.path.getsize(image_path)
 
-        file_size_str = str(file_size) + " bytes"
-        if (file_size >= 1024):
-            if (file_size >= 1024 * 1024):
-                file_size_str = str(file_size // (1024 * 1024)) + " MB"
-            else:
-                file_size_str = str(file_size // 1024) + " KB"
+        if f and file_extension.lower() in ALLOWED_FILETYPES:
+            file_tempname = uuid.uuid4().hex
+            image_path = './uploads/' + file_tempname + file_extension
+            f.save(image_path)
+            file_size = os.path.getsize(image_path)
 
-        image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
+            file_size_str = str(file_size) + " bytes"
+            if (file_size >= 1024):
+                if (file_size >= 1024 * 1024):
+                    file_size_str = str(file_size // (1024 * 1024)) + " MB"
+                else:
+                    file_size_str = str(file_size // 1024) + " KB"
 
-        orig_width, orig_height = Image.open(image_path).size
+            image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
 
-        label, prediction_probability = classify_image(image=image)
-        prediction_probability = np.around(prediction_probability * 100, decimals=4)
+            orig_width, orig_height = Image.open(image_path).size
 
-        image_data = get_iamge_thumbnail(image=image)
+            label, prediction_probability = classify_image(image=image)
+            prediction_probability = np.around(prediction_probability * 100, decimals=4)
 
-        os.remove(image_path)
+            image_data = get_iamge_thumbnail(image=image)
 
-        with application.app_context():
-            return render_template('index.html', 
-                                    label=label, 
-                                    prob=prediction_probability, 
-                                    image=image_data,
-                                    file_name=sec_filename,
-                                    file_size=file_size_str,
-                                    width=orig_width,
-                                    height=orig_height
-                                    )
+            os.remove(image_path)
+
+            with application.app_context():
+                return render_template('index.html', 
+                                        label=label, 
+                                        prob=prediction_probability, 
+                                        image=image_data,
+                                        file_name=sec_filename,
+                                        file_size=file_size_str,
+                                        width=orig_width,
+                                        height=orig_height
+                                        )
+        else:
+            flash("The file type you selected is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.")
+            return redirect(url_for('index'))
 
 def about():
     return render_template('about.html')
@@ -150,6 +169,7 @@ def robots():
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
+application.secret_key = app_config.get('application_secret')
 
 # add a rule for the index page.
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
