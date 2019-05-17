@@ -66,7 +66,7 @@ def classify_image(image):
     inv_map = {v: k for k, v in class_dictionary.items()}
     label = inv_map[inID]
 
-    print("Predicted: {}, Confidence: {}".format(label, prediction_probability))
+    print("[Info] Predicted: {}, Confidence: {}".format(label, prediction_probability))
 
     return label, prediction_probability
 
@@ -90,12 +90,18 @@ def index():
         f.save(image_path)
         file_size = os.path.getsize(image_path)
 
+        file_size_str = str(file_size) + " bytes"
+        if (file_size >= 1024):
+            if (file_size >= 1024 * 1024):
+                file_size_str = str(file_size // (1024 * 1024)) + " MB"
+            else:
+                file_size_str = str(file_size // 1024) + " KB"
+
         image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
 
         orig_width, orig_height = Image.open(image_path).size
 
         label, prediction_probability = classify_image(image=image)
-
         prediction_probability = np.around(prediction_probability * 100, decimals=4)
 
         image_data = get_iamge_thumbnail(image=image)
@@ -108,7 +114,7 @@ def index():
                                     prob=prediction_probability, 
                                     image=image_data,
                                     file_name=sec_filename,
-                                    file_size=file_size,
+                                    file_size=file_size_str,
                                     width=orig_width,
                                     height=orig_height
                                     )

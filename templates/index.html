@@ -50,7 +50,7 @@
                         <h5 class="card-title">Uploaded</h5>
                         <p class="card-text">File Name : {{file_name}}</p>
                         <p class="card-text">File Size : {{file_size}}</p>
-                        <p class="card-text">Resolution : {{width}} X {{height}}</p>
+                        <p class="card-text">Original Resolution : {{width}} X {{height}} pixels</p>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,18 @@
                     <div class="card-body">
                         <h5 class="card-title">Identification</h5>
                         <p class="card-text">Predicted : {{label}}</p>
-                        <p class="card-text">Confidence [0-100] : {{prob}} %</p>
+                        <p class="card-text">Confidence [0-100] : </p>
+                        <div class="progress">
+                            <div class=" 
+                            {%- if prob|float > 80 -%}
+                            progress-bar bg-success
+                            {%- elif prob|float > 50 -%}
+                            progress-bar bg-warning
+                            {%- else -%}
+                            progress-bar bg-danger
+                            {%- endif -%}
+                            " role="progressbar" style="width: {{prob}}%" aria-valuenow="{{prob}}" aria-valuemin="0" aria-valuemax="100">{{prob}} %</div>
+                        </div>
                     </div>
                 </div>
             </div>
