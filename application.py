@@ -38,6 +38,9 @@ final_model_path = app_config.get('final_model_path')
 
 class_dictionary = np.load(app_config.get('class_dictionary_path')).item()
 
+# Google analytics property ID
+analytics_id = app_config.get('analytics_id')
+
 global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
@@ -81,11 +84,12 @@ def get_iamge_thumbnail(image):
 def index():
     if request.method == 'GET':
         with application.app_context():
-            return render_template('index.html')
+            return render_template('index.html', analytics_id=analytics_id)
 
     if request.method == 'POST':
         # check if the post request has the file part
         if 'bird_image' not in request.files:
+            print("[Error] No file uploaded.")
             flash('No file uploaded.')
             return redirect(url_for('index'))
         
@@ -94,6 +98,7 @@ def index():
         # if user does not select file, browser also
         # submit an empty part without filename
         if f.filename == '':
+            print("[Error] No file selected to upload.")
             flash('No file selected to upload.')
             return redirect(url_for('index'))
 
@@ -132,17 +137,19 @@ def index():
                                         file_name=sec_filename,
                                         file_size=file_size_str,
                                         width=orig_width,
-                                        height=orig_height
+                                        height=orig_height,
+                                        analytics_id=analytics_id
                                         )
         else:
+            print("[Error] Unauthorized file extension: {}".format(file_extension))
             flash("The file type you selected is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.")
             return redirect(url_for('index'))
 
 def about():
-    return render_template('about.html')
+    return render_template('about.html', analytics_id=analytics_id)
 
 def howitworks():
-    return render_template('howitworks.html')
+    return render_template('howitworks.html', analytics_id=analytics_id)
 
 def sitemap():
     try:
@@ -167,6 +174,12 @@ def sitemap():
 def robots():
     return send_from_directory(application.static_folder, 'robots.txt')
 
+def http_413(e):
+    print("[Error] Uploaded file too large.")
+    flash('Uploaded file too large.')
+    return redirect(url_for('index'))
+
+
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 application.secret_key = app_config.get('application_secret')
@@ -179,6 +192,9 @@ application.add_url_rule('/howitworks', 'howitworks', howitworks, methods=['GET'
 
 application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
 application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])
+
+application.register_error_handler(413, http_413)
+application.config['MAX_CONTENT_LENGTH'] = app_config.getint('max_upload_size') * 1024 * 1024
 
 # run the app.
 if __name__ == "__main__":
