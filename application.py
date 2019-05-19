@@ -31,8 +31,8 @@ session = tf.Session(config=config)
 set_session(session)
 
 # Get the DynamoDB service resource.
-dynamodb = boto3.resource('dynamodb')
-dynamoDBClient = boto3.client('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name=app_config.get('aws_redion'))
+dynamoDBClient = boto3.client('dynamodb', region_name=app_config.get('aws_redion'))
 
 predictions_log = dynamodb.Table('birdwatch_predictions_log')
 customer_feedback_tbl = dynamodb.Table('birdwatch_customer_feedback')
@@ -183,7 +183,7 @@ def set_correctness():
     prediction_id = req_json.get('prediction_id')
     correctness = req_json.get('correctness')
 
-    if (req_json and prediction_id and correctness):
+    if (req_json and prediction_id and (correctness or correctness==0)):
         try:
             correctness = int(correctness)
             update_correctness(prediction_id=prediction_id, correctness=correctness)
