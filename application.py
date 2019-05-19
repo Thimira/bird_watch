@@ -179,8 +179,15 @@ def log_prediction(prediction_label, prediction_confidence):
 def set_correctness():
     req_json = request.get_json()
     prediction_id = req_json.get('prediction_id')
-    correctness = int(req_json.get('correctness'))
-    update_correctness(prediction_id=prediction_id, correctness=correctness)
+    correctness = req_json.get('correctness')
+
+    if (req_json and prediction_id and correctness):
+        try:
+            correctness = int(correctness)
+            update_correctness(prediction_id=prediction_id, correctness=correctness)
+        except Exception as e:
+            print("[Error] Error updating correctness: {}".format(e))
+
     return jsonify(success=True)
 
 def update_correctness(prediction_id, correctness):
