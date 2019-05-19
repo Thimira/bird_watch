@@ -160,10 +160,12 @@ def index():
 
 def log_prediction(prediction_label, prediction_confidence):
     prediction_id = str(uuid.uuid4())
+    timestamp = int(time.time())
     prediction_confidence = Decimal(str(prediction_confidence))
     predictions_log.put_item(
         Item={
             'prediction_id': prediction_id,
+            'timestamp': timestamp,
             'prediction_label': prediction_label,
             'prediction_confidence': prediction_confidence,
             'correctness': -1,
