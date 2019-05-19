@@ -93,13 +93,47 @@
             </tbody>
         </table>
     </div>
-    <div class="alert alert-warning" role="alert">
-        <h5 class="alert-heading">Disclaimer:</h5>
-        <ul>
-            <li>This is still a <strong>Beta</strong> release. There are still many limitations. Miss-identification of birds are possible.</li>
-            <li>The images you upload <strong>WILL NOT</strong> be kept in any way. The uploaded image data will be discarded on each request.</li>
-        </ul>
-        <p class="mb-0">The code of this application is available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>.</p>
+    <div class="container">
+        <div class="row">
+            <div class="media">
+                    <img src="{{ url_for('static', filename='images/Author.jpg') }}" style="height: 170px; width: 170px" class="mr-3 img-thumbnail" alt="Photo of Author: Thimira Amaratunga">
+                <div class="media-body">
+                    <h5 class="mt-0">About the Author</h5>
+                    Thimira Amaratunga is an inventor, software architect, researcher in machine learning and computer vision, author, and an armature photographer.
+                    <ul>
+                        <li>Blog: <a href="https://www.codesofinterest.com" target="_blank">Codes of Interest</a></li>
+                        <li>LinkedIn: <a href="https://www.linkedin.com/in/thimira-amaratunga" target="_blank">Thimira Amaratunga</a></li>
+                        <li>GitHub: <a href="https://github.com/Thimira" target="_blank">github.com/Thimira</a></li>
+                        <li>Twitter: <a href="https://twitter.com/thimira42" target="_blank">@thimira42</a></li>
+                    </ul>
+
+                    <div class="media mt-3">
+                        <a class="mr-3" href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
+                            <img src="{{ url_for('static', filename='images/BuildDeeper.jpg') }}" style="height: 100px;" class="mr-3 img-thumbnail" alt="Build Deeper: The Path to Deep Learning">
+                        </a>
+                        <div class="media-body">
+                            <h5 class="mt-0">Authors' Publications</h5>
+                            <a href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
+                                <strong>Build Deeper: The Path to Deep Learning</strong><br />
+                            </a>
+                            Build Deeper is a complete and practical guide that can help you take the first few steps in deep learning. It will guide you step-by-step, from understanding the basic concepts, to building your first practical application.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="alert alert-info" role="alert">
+                <h5 class="alert-heading">Info:</h5>
+                <ul>
+                    <li>As this is a <strong>beta</strong> release, the system is still limited. Therefore, miss-identification of images are still possible.</li>
+                    <li>Over time, as we train the system further, the accuracy will get better, and the miss-classifications will reduce.</li>
+                    <li>We <strong>will not</strong> store any of the images you upload. The images are discarded as soon as the classification is made.</li>
+                    <li>The code of this application is publicly available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>. Feel free to go through the code, and suggest improvements.</li>
+                </ul>
+            </div>
+        </div>
     </div>
     <br />
     <br />
