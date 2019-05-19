@@ -11,7 +11,7 @@ $(function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data) {
-                $('#feedback-ack').show();
+                $("#correctness-ack").show();
             },
             failure: function(errMsg) {
                 // alert(errMsg);

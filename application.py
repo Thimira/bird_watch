@@ -12,6 +12,7 @@ import os
 import sys
 import base64
 import uuid
+import time
 from datetime import datetime, timedelta
 import configparser
 import boto3
@@ -34,6 +35,7 @@ dynamodb = boto3.resource('dynamodb')
 dynamoDBClient = boto3.client('dynamodb')
 
 predictions_log = dynamodb.Table('birdwatch_predictions_log')
+customer_feedback_tbl = dynamodb.Table('birdwatch_customer_feedback')
 
 '''The domain name we will be using for our website. This will be used for SEO'''
 site_domain = app_config.get('site_domain')
@@ -192,6 +194,31 @@ def update_correctness(prediction_id, correctness):
         }
     )
 
+def customer_feedback():
+    req_json = request.get_json()
+    feedback_id = str(uuid.uuid4())
+    timestamp = int(time.time())
+
+    feedback = req_json.get('feedback')
+    rating = req_json.get('rating')
+
+    if (req_json and feedback and rating):
+        try:
+            rating = int(rating)
+
+            customer_feedback_tbl.put_item(
+                Item={
+                    'feedback_id': feedback_id,
+                    'timestamp': timestamp,
+                    'feedback': feedback,
+                    'rating': rating,
+                }
+            )
+        except Exception as e:
+            print("[Error] Error setting feedback: {}".format(e))
+
+    return jsonify(success=True)
+
 def about():
     return render_template('about.html', analytics_id=analytics_id)
 
@@ -234,7 +261,9 @@ application.secret_key = app_config.get('application_secret')
 # add a rule for the index page.
 application.add_url_rule('/', 'index', index, methods=['GET', 'POST'])
 
+# AJAX routes
 application.add_url_rule('/correctness', 'correctness', set_correctness, methods=['POST'])
+application.add_url_rule('/feedback', 'feedback', customer_feedback, methods=['POST'])
 
 
 application.add_url_rule('/about', 'about', about, methods=['GET'])

@@ -74,17 +74,42 @@
                     </div>
                     <div class="card-footer text-muted">
                         <p class="card-text">Did we get it correct?</p>
-                        <span id='prediction_id' style="display:none">{{prediction_id}}</span>
+                        <span id="prediction_id" style="display:none">{{prediction_id}}</span>
                         <a href="#" id="pred-correct" class="badge badge-success">Correct</a>
                         <a href="#" id="pred-incorrect" class="badge badge-danger">Incorrect</a>
                         <a href="#" id="pred-notsure" class="badge badge-info">Not sure</a>
-                        <span id='feedback-ack' style="display:none"><br /><small>Thank you! Your feedback helps us improve the accuracy of the system.</small></span>
+                        <span id="correctness-ack" style="display:none"><br /><small>Thank you! Your feedback helps us to improve the system.</small></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>    
     {% endif %}
+    <div class="container">
+        <p class="lead">Do you find this site useful? Let us know your feedback on how we can improve it.</p>
+        <form>
+            <div class="form-row">
+                <div class="col-auto">
+                    <span id="star-rating">
+                        <i class="fas fa-star py-2 px-1 rate-star" data-index="0" title="Very bad"></i>
+                        <i class="fas fa-star py-2 px-1 rate-star" data-index="1" title="Poor"></i>
+                        <i class="fas fa-star py-2 px-1 rate-star" data-index="2" title="OK"></i>
+                        <i class="fas fa-star py-2 px-1 rate-star" data-index="3" title="Good"></i>
+                        <i class="fas fa-star py-2 px-1 rate-star" data-index="4" title="Excellent"></i>
+                    </span>
+                    <span id="star-value" style="display:none"></span>
+                </div>
+                <div class="col-auto">
+                    <textarea id="feedback-text" type="text" style="font-size: 0.78rem" class="md-textarea form-control py-0" placeholder="What can we improve?" rows="3"></textarea>
+                </div>
+                <div class="col-auto">
+                    <button id="submit-feedback" type="button" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        <br />
+        <div id="feedback-ack"></div>
+    </div>
     <br />
     <div class="alert alert-info" role="alert">
         <h5 class="alert-heading">Info:</h5>
