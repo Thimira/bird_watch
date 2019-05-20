@@ -92,10 +92,7 @@ def get_iamge_thumbnail(image):
         return base64.b64encode(buffer.getvalue()).decode()
 
 def index():
-    if request.method == 'GET':
-        with application.app_context():
-            return render_template('index.html', analytics_id=analytics_id)
-
+    # handling the POST method of the submit
     if request.method == 'POST':
         # check if the post request has the file part
         if 'bird_image' not in request.files:
@@ -157,6 +154,11 @@ def index():
             print("[Error] Unauthorized file extension: {}".format(file_extension))
             flash("The file type you selected is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.")
             return redirect(url_for('index'))
+    else:
+        # handling the GET, HEAD, and any other methods
+        with application.app_context():
+            return render_template('index.html', analytics_id=analytics_id)
+
 
 def log_prediction(prediction_label, prediction_confidence):
     prediction_id = str(uuid.uuid4())
