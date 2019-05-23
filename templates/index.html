@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block metadesc %}Bird Watch: the Deep Learning/AI and Computer Vision based bird image identification system.{% endblock %}
+{% block metadesc %}Bird Watch: The Bird Image Identification System. A best tool for wildlife photographers, bird/nature enthusiasts, researchers and academics. The system works using Deep Learning/AI and Computer Vision techniques.{% endblock %}
 
 {% block title %}Bird Watch: Home{% endblock %}
 
@@ -25,14 +25,14 @@
     {% if not label %}
     <div class="jumbotron">
         <h1 class="display-4">Bird Watch</h1>
-        <p class="lead">A Deep Learning/AI and Computer Vision based Bird Image Identification System.</p>
+        <p class="lead">The Bird Image Identification System. A best tool for wildlife photographers, bird/nature enthusiasts, researchers and academics.</p>
         <hr class="my-4">
-        <p class="lead">Upload your bird images below, and the system will try to recognition them.</p>
+        <p class="lead">Upload your bird images below, and the system will try to recognition them using Deep Learning/AI and Computer Vision.</p>
     </div>
     {% endif %}
     <form action="" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="bird_image">Select image to upload <small class="text-muted">(supports .jpg, .jpeg, .gif, and .png images)</small></label>
+            <label for="bird_image">Select an image to upload <small class="text-muted">(supports .jpg, .jpeg, .gif, and .png images)</small></label>
             <input type="file" class="form-control-file btn btn-outline-secondary" name="bird_image" id="bird_image" accept=".jpg,.jpeg,.gif,.png" required="required">
         </div>
         <div class="form-group">
