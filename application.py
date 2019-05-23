@@ -55,7 +55,7 @@ global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
 
-ALLOWED_FILETYPES = set(['.jpg',' .jpeg', '.gif', '.png'])
+ALLOWED_FILETYPES = set(['.jpg', '.jpeg', '.gif', '.png'])
 
 def classify_image(image):
     image = img_to_array(image)
