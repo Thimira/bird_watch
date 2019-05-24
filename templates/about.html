@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block metadesc %}About Bird Watch, the Deep Learning/AI and Computer Vision based bird image identification system. Disclaimers and instructions.{% endblock %}
+{% block metadesc %}About the Bird Watch project, the bird image identification system for photographers: it's history, goals, capabilities, current limitations, and future plans.   .{% endblock %}
 
 {% block title %}Bird Watch: About{% endblock %}
 
@@ -23,8 +23,8 @@
 {% block content %}
     <div class="center-content">
         <h1>Bird Watch</h1>
-        <p class="lead">A Deep Learning / AI based Bird Image Identification System.</p>
-        <p class="lead">The 'Bird Watch' project, created by an amateur photographer and a machine learning enthusiast, is a solution to a simple problem faced by fellow wildlife photographers: a way to identify birds in their photographs.</p>
+        <p class="lead">The Deep Learning/AI and Computer Vision based Bird Image Identification System.</p>
+        <p class="lead">Built for fellow wildlife photographers, by an amateur photographer and a machine learning enthusiast, the 'Bird Watch' project aims to be a solution to a simple problem: a way for photographers to identify birds in their photographs. This can also be a useful tool for bird/nature enthusiasts, researchers and academics.</p>
         <p class="lead">The system can currently identify the following 222 species of birds:</p>
     </div>
     <div class="table-responsive">
@@ -96,7 +96,7 @@
     <div class="container">
         <div class="row">
             <div class="media">
-                    <img src="{{ url_for('static', filename='images/Author.jpg') }}" style="height: 170px; width: 170px" class="mr-3 img-thumbnail" alt="Photo of Author: Thimira Amaratunga">
+                <img src="{{ url_for('static', filename='images/Author.jpg') }}" style="height: 170px; width: 170px" class="mr-3 img-thumbnail" alt="Photo of Author: Thimira Amaratunga">
                 <div class="media-body">
                     <h5 class="mt-0">About the Author</h5>
                     Thimira Amaratunga is an inventor, software architect, researcher in machine learning and computer vision, author, and an armature photographer.
@@ -106,19 +106,18 @@
                         <li>GitHub: <a href="https://github.com/Thimira" target="_blank">github.com/Thimira</a></li>
                         <li>Twitter: <a href="https://twitter.com/thimira42" target="_blank">@thimira42</a></li>
                     </ul>
-
-                    <div class="media mt-3">
-                        <a class="mr-3" href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
-                            <img src="{{ url_for('static', filename='images/BuildDeeper.jpg') }}" style="height: 100px;" class="mr-3 img-thumbnail" alt="Build Deeper: The Path to Deep Learning">
-                        </a>
-                        <div class="media-body">
-                            <h5 class="mt-0">Authors' Publications</h5>
-                            <a href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
-                                <strong>Build Deeper: The Path to Deep Learning</strong><br />
-                            </a>
-                            Build Deeper is a complete and practical guide that can help you take the first few steps in deep learning. It will guide you step-by-step, from understanding the basic concepts, to building your first practical application.
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="media mt-3">
+                <a class="mr-3" href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
+                    <img src="{{ url_for('static', filename='images/BuildDeeper.jpg') }}" style="height: 100px;" class="mr-3 img-thumbnail" alt="Build Deeper: The Path to Deep Learning">
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0">Authors' Publications</h5>
+                    <a href="https://www.amazon.com/dp/B07MY5Y643" target="_blank">
+                        <strong>Build Deeper: The Path to Deep Learning</strong><br />
+                    </a>
+                    Build Deeper is a complete and practical guide that can help you take the first few steps in deep learning. It will guide you step-by-step, from understanding the basic concepts, to building your first practical application.
                 </div>
             </div>
         </div>

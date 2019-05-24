@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block metadesc %}How Bird Watch works: The science and the process behind the Deep Learning/AI and Computer Vision based bird image identification system.{% endblock %}
+{% block metadesc %}How Bird Watch works: The science and the components behind the Deep Learning/AI, Computer Vision based bird image identification system.{% endblock %}
 
 {% block title %}Bird Watch: How it Works{% endblock %}
 
@@ -23,11 +23,32 @@
 {% block content %}
     <div class="center-content">
         <h1>Bird Watch: How it Works</h1>
-        <p class="lead">Bird Watch is a deep learning computer vision application, developed using Keras and TensorFlow, with Flask for the web application. The InceptionV3 deep learning model was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
-        <p class="lead">The images are processed in 400x400 pixel resolution. The model was trained for 100 iterations on bottleneck features and then fine-tuned for a further 100 iterations.</p>
-        <p class="lead">The full model is shown below:</p>
+        <p class="lead">Bird Watch is a deep learning computer vision application, developed using Keras and TensorFlow, with Flask for the web application.</p>
+        
     </div>
-    <img src="{{ url_for('static', filename='images/model.png') }}" class="img-fluid" alt="The deep learning model structure of bird watch">
+    <div class="container">
+        <div class="media">
+            <img src="{{ url_for('static', filename='images/DeepLearningVenn.png') }}" class="mr-3 img-thumbnail" alt="What is deep learning">
+            <div class="media-body">
+                <h5 class="mt-0">What is Deep Learning?</h5>
+                Deep Learning is a subset of Machine Learning which focuses on an area of algorithms inspired by our understanding of how the brain works to obtain knowledge.
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container text-center">
+        <figure class="figure">
+            <img src="{{ url_for('static', filename='images/MLTimeline.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The history of deep learning">
+            <figcaption class="figure-caption">The history of deep learning. (Image source: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a>)</figcaption>
+        </figure>
+    </div>
+    <br />
+    <div class="container">
+        <p>The InceptionV3 deep learning model was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
+        <p>The images are processed in 400x400 pixel resolution. The model was trained for 100 iterations on bottleneck features and then fine-tuned for a further 100 iterations.</p>
+        <p>The full model is shown below:</p>
+        <img src="{{ url_for('static', filename='images/model.png') }}" class="img-fluid" alt="The deep learning model structure of bird watch">
+    </div>
     <br />
     <br />
     <br />
