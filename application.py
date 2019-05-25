@@ -152,7 +152,7 @@ def index():
                                         )
         else:
             print("[Error] Unauthorized file extension: {}".format(file_extension))
-            flash("The file type you selected is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.")
+            flash("The file type you selected: '{}' is not supported. Please select a '.jpg', '.jpeg', '.gif', or a '.png' file.".format(file_extension))
             return redirect(url_for('index'))
     else:
         # handling the GET, HEAD, and any other methods
