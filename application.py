@@ -240,17 +240,25 @@ def sitemap():
     try:
         """Generate sitemap.xml. Makes a list of urls and date modified."""
         pages=[]
-        one_week = (datetime.now() - timedelta(days=7)).date().isoformat()
+        app_modified_time = app_config.get('app_modified_time', '2019-05-25T10:00:00Z')
+        app_modified_time = datetime.strptime(app_modified_time, "%Y-%m-%dT%H:%M:%SZ")
+        modified_time = str(app_modified_time.replace(microsecond=0).isoformat()) + 'Z'
+        if ((app_modified_time - datetime.utcnow()).days > 7):
+            modified_time = str((datetime.utcnow() - timedelta(days=7)).replace(microsecond=0).isoformat()) + 'Z'
         # static pages
         for rule in application.url_map.iter_rules():
             if "GET" in rule.methods and len(rule.arguments)==0:
+                # skipping the sitemap and robots.txt routes
+                if (str(rule.rule) == '/sitemap.xml' or str(rule.rule) == '/robots.txt'):
+                    continue
+
                 pages.append(
-                            [site_domain + str(rule.rule), one_week]
+                            [site_domain + str(rule.rule), modified_time]
                             )
 
         sitemap_xml = render_template('sitemap_template.xml', pages=pages)
         response = make_response(sitemap_xml)
-        response.headers["Content-Type"] = "application/xml"    
+        response.headers["Content-Type"] = "application/xml"
 
         return response
     except Exception as e:
