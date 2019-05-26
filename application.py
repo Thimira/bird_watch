@@ -9,6 +9,7 @@ from keras.utils.np_utils import to_categorical
 from PIL import Image
 from io import BytesIO
 import os
+import os.path
 import sys
 import base64
 import uuid
@@ -86,6 +87,7 @@ def classify_image(image):
     return label, prediction_probability
 
 def get_iamge_thumbnail(image):
+    image.thumbnail((400, 400), resample=Image.LANCZOS)
     image = image.convert("RGB")
     with BytesIO() as buffer:
         image.save(buffer, 'jpeg')
@@ -127,14 +129,23 @@ def index():
 
             image = load_img(image_path, target_size=(img_width, img_height), interpolation='lanczos')
 
-            orig_width, orig_height = Image.open(image_path).size
+            orig_image = Image.open(image_path)
+            orig_width, orig_height = orig_image.size
 
             label, prediction_probability = classify_image(image=image)
             prediction_probability = np.around(prediction_probability * 100, decimals=4)
 
             prediction_id = log_prediction(prediction_label=label, prediction_confidence=prediction_probability)
 
-            image_data = get_iamge_thumbnail(image=image)
+            image_data = get_iamge_thumbnail(image=orig_image)
+
+            sample_img_path = './samples/' + label + '.jpg'
+            sample_data = None
+            if (os.path.isfile(sample_img_path)):
+                sample_image = Image.open(sample_img_path)
+                sample_data = get_iamge_thumbnail(image=sample_image)
+            else:
+                print("[Error] Sample image does not exist: {}".format(sample_img_path))
 
             os.remove(image_path)
 
@@ -145,6 +156,7 @@ def index():
                                         image=image_data,
                                         file_name=sec_filename,
                                         file_size=file_size_str,
+                                        sample_image=sample_data,
                                         width=orig_width,
                                         height=orig_height,
                                         analytics_id=analytics_id,

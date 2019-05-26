@@ -2,6 +2,8 @@
 data/
 uploads/*
 !uploads/.gitkeep
+samples/*
+!samples/.gitkeep
 .vscode
 models/*.h5
 models/*.npy

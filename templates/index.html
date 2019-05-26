@@ -56,6 +56,9 @@
             </div>
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
+                    {% if sample_image %}
+                    <img src="data:image/jpeg;base64,{{sample_image}}" class="card-img-top" alt="sample image">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">Identification</h5>
                         <p class="card-text">Predicted : {{label}}</p>
