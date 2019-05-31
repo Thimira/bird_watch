@@ -243,7 +243,7 @@ def customer_feedback():
     return jsonify(success=True)
 
 def about():
-    return render_template('about.html', analytics_id=analytics_id)
+    return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary)
 
 def howitworks():
     return render_template('howitworks.html', analytics_id=analytics_id)
