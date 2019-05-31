@@ -34,14 +34,14 @@ img_width, img_height = 400, 400
 bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
 bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_006.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_030.h5'
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
 eval_image_path = './data/eval/'
 
-class_indices_path = 'data/models/class_indices_006.npy'
+class_indices_path = 'data/models/class_indices_030.npy'
 train_data_shape_path = 'data/models/train_data_shape.npy'
 
 # number of epochs to train top model
@@ -56,7 +56,7 @@ datagen = ImageDataGenerator(
                     zoom_range=0.2,
                     horizontal_flip=True,
                     fill_mode='nearest',
-                    validation_split=0.1)
+                    validation_split=0.25)
 
 train_generator = datagen.flow_from_directory(
                     train_data_dir,
@@ -122,7 +122,7 @@ def build_top_model(input_shape, num_classes):
     i = Input(shape=input_shape)
     x = GlobalAveragePooling2D()(i)
     x = Dense(1024, activation='relu')(x)
-    x = Dropout(0.3)(x)
+    x = Dropout(0.5)(x)
     pred = Dense(num_classes, activation='softmax')(x)
     model = Model(inputs=i, outputs=pred)
 

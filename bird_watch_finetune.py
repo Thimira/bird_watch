@@ -12,11 +12,11 @@ import math
 # dimensions of our images.
 img_width, img_height = 400, 400
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_006.h5'
+top_model_weights_path = 'data/models/bottleneck_fc_model_030.h5'
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
-final_model_path ='data/models/final_model_006.h5'
+final_model_path ='data/models/final_model_030.h5'
 
 # number of epochs to train top model
 epochs = 100
@@ -31,7 +31,7 @@ datagen = ImageDataGenerator(
                     zoom_range=0.2,
                     horizontal_flip=True,
                     fill_mode='nearest',
-                    validation_split=0.1)
+                    validation_split=0.25)
 
 train_generator = datagen.flow_from_directory(
                     train_data_dir,
@@ -69,7 +69,7 @@ print("[Info] Model loaded.")
 i = Input(shape=base_model.output_shape[1:])
 x = GlobalAveragePooling2D()(i)
 x = Dense(1024, activation='relu')(x)
-x = Dropout(0.3)(x)
+x = Dropout(0.5)(x)
 pred = Dense(num_classes, activation='softmax')(x)
 top_model = Model(inputs=i, outputs=pred)
 
