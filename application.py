@@ -160,7 +160,8 @@ def index():
                                         width=orig_width,
                                         height=orig_height,
                                         analytics_id=analytics_id,
-                                        prediction_id=prediction_id
+                                        prediction_id=prediction_id,
+                                        num_classes=len(class_dictionary)
                                         )
         else:
             print("[Error] Unauthorized file extension: {}".format(file_extension))
@@ -169,7 +170,10 @@ def index():
     else:
         # handling the GET, HEAD, and any other methods
         with application.app_context():
-            return render_template('index.html', analytics_id=analytics_id)
+            return render_template('index.html', 
+                                    analytics_id=analytics_id,
+                                    num_classes=len(class_dictionary)
+                                    )
 
 
 def log_prediction(prediction_label, prediction_confidence):
