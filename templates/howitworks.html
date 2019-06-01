@@ -2,7 +2,7 @@
 
 {% block metadesc %}How Bird Watch works: The science and the components behind the Deep Learning/AI, Computer Vision based bird image identification system.{% endblock %}
 
-{% block title %}Bird Watch: How it Works{% endblock %}
+{% block title %}Bird Watch - How it Works: The science and the components behind the Deep Learning/AI, Computer Vision based bird image identification system{% endblock %}
 
 {% block navbar %}
 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -32,6 +32,10 @@
             <div class="media-body">
                 <h5 class="mt-0">What is Deep Learning?</h5>
                 <p>Deep Learning is a subset of Machine Learning which focuses on an area of algorithms inspired by our understanding of how the brain works to obtain knowledge.</p>
+                <p><strong>Intelligent Machines:</strong> The idea that machines can one day be as intelligent as humans.</p>
+                <p><strong>Artificial Intelligence:</strong> The formal research field for which the goal is to build intelligent machines.</p>
+                <p><strong>Machine Learning:</strong> A subset of Artificial Intelligence which aims at providing machines the ability to learn without explicit programming.</p>
+                <p><strong>Deep Learning:</strong> A subset of Machine Learning where hirarchical feature learning (which was inspired by how our brains work) to obtain knowledge.</p>
                 <p>Read more about Deep Learning here: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a></p>
             </div>
         </div>
@@ -45,6 +49,7 @@
     </div>
     <br />
     <div class="container">
+        <p>The system uses a Convolutional Neural Network.</p>
         <p>The InceptionV3 deep learning model was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
         <p>The images are processed in 400x400 pixel resolution. The model was trained for 100 iterations on bottleneck features and then fine-tuned for a further 100 iterations.</p>
         <p>The full model is shown below:</p>
@@ -54,4 +59,4 @@
     <br />
     <br />
     <br />
-{% endblock %}  
+{% endblock %}
