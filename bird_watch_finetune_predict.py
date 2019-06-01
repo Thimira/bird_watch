@@ -15,8 +15,8 @@ import sys
 # dimensions of our images.
 img_width, img_height = 400, 400
 
-final_model_path ='data/models/final_model_006.h5'
-class_indices_path = 'data/models/class_indices_006.npy'
+final_model_path ='data/models/final_model_030.h5'
+class_indices_path = 'data/models/class_indices_030.npy'
 
 def get_top_predictions(preds, class_map, top=5):
     results = []
