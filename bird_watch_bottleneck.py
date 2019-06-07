@@ -17,6 +17,12 @@ import cv2
 import os
 import sys
 import argparse
+import configparser
+
+config = configparser.ConfigParser()
+config.read('conf/application.ini')
+
+app_config = config['training']
 
 # Setup the argument parser to parse out command line arguments
 ap = argparse.ArgumentParser()
@@ -29,25 +35,26 @@ ap.add_argument("-p", "--predict", type=int, default=-1,
 args = vars(ap.parse_args())
 
 # dimensions of our images.
-img_width, img_height = 400, 400
+img_width = app_config.getint('img_width')
+img_height = app_config.getint('img_height')
 
 bottleneck_features_train_path = 'data/models/bottleneck_features_train.npy'
 bottleneck_features_validation_path = 'data/models/bottleneck_features_validation.npy'
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_030.h5'
+top_model_weights_path = app_config.get('top_model_weights_path')
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
 eval_image_path = './data/eval/'
 
-class_indices_path = 'data/models/class_indices_030.npy'
+class_indices_path = app_config.get('class_dictionary_path')
 train_data_shape_path = 'data/models/train_data_shape.npy'
 
 # number of epochs to train top model
-epochs = 100
+epochs = app_config.getint('train_epochs')
 # batch size used by flow_from_directory and predict_generator
-batch_size = 64
+batch_size = app_config.getint('train_batch_size')
 
 datagen = ImageDataGenerator(
                     rescale=1. / 255,

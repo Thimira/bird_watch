@@ -8,20 +8,27 @@ from keras.utils.np_utils import to_categorical
 from keras.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
 import math
+import configparser
+
+config = configparser.ConfigParser()
+config.read('conf/application.ini')
+
+app_config = config['training']
 
 # dimensions of our images.
-img_width, img_height = 400, 400
+img_width = app_config.getint('img_width')
+img_height = app_config.getint('img_height')
 
-top_model_weights_path = 'data/models/bottleneck_fc_model_030.h5'
+top_model_weights_path = app_config.get('top_model_weights_path')
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
 
-final_model_path ='data/models/final_model_030.h5'
+final_model_path = app_config.get('final_model_path')
 
 # number of epochs to train top model
-epochs = 100
+epochs = app_config.getint('fine_tune_epochs')
 # batch size used by flow_from_directory and predict_generator
-batch_size = 64
+batch_size = app_config.getint('fine_tune_batch_size')
 
 # prepare data augmentation configuration
 datagen = ImageDataGenerator(

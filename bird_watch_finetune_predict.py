@@ -11,12 +11,19 @@ import math
 import cv2
 import os
 import sys
+import configparser
+
+config = configparser.ConfigParser()
+config.read('conf/application.ini')
+
+app_config = config['training']
 
 # dimensions of our images.
-img_width, img_height = 400, 400
+img_width = app_config.getint('img_width')
+img_height = app_config.getint('img_height')
 
-final_model_path ='data/models/final_model_030.h5'
-class_indices_path = 'data/models/class_indices_030.npy'
+final_model_path = app_config.get('final_model_path')
+class_indices_path = app_config.get('class_dictionary_path')
 
 def get_top_predictions(preds, class_map, top=5):
     results = []
