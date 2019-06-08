@@ -88,10 +88,12 @@ top_model.load_weights(top_model_weights_path)
 # add the model on top of the convolutional base
 model = Model(inputs=base_model.input, outputs=top_model(base_model.output))
 
-# set the first 280 layers (up to the last conv block)
+# set the first 249 layers (up to the last 2 inception blocks)
 # to non-trainable (weights will not be updated)
-for layer in model.layers[:280]:
+for layer in model.layers[:249]:
     layer.trainable = False
+for layer in model.layers[249:]:
+    layer.trainable = True
 
 # compile the model with a SGD/momentum optimizer
 # and a very slow learning rate.
