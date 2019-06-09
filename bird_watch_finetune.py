@@ -9,6 +9,7 @@ from keras.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
 import math
 import configparser
+from datetime import datetime, timedelta
 
 config = configparser.ConfigParser()
 config.read('conf/application.ini')
@@ -105,6 +106,9 @@ filepath="data/models/checkpoints/model-{epoch:02d}-{val_acc:.2f}.h5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='max')
 callbacks_list = [checkpoint]
 
+ft_start_time = datetime.now()
+print("[Info] Model Fine-tuning started at: {}".format(ft_start_time))
+
 history = model.fit_generator(
     train_generator,
     steps_per_epoch=train_steps,
@@ -117,6 +121,12 @@ history = model.fit_generator(
     validation_generator,
     steps=validation_steps)
 
+ft_end_time = datetime.now()
+print("[Info] Model Fine-tuning completed at: {}".format(ft_end_time))
+ft_duration = ft_end_time - ft_start_time
+print("[Info] Total time for Fine-tuning: {}".format(ft_duration))
+
+print("[Info] Saving final model to disk: {}".format(final_model_path))
 model.save(final_model_path)
 
 print("\n")
@@ -149,4 +159,5 @@ plt.xlabel('Epoch')
 plt.legend(['Training', 'Validation'], loc='upper right')
 
 plt.tight_layout()
-plt.show()
+# plt.show()
+plt.savefig('Fine-tune-031.png', bbox_inches='tight', dpi=300)
