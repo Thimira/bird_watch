@@ -160,4 +160,4 @@ plt.legend(['Training', 'Validation'], loc='upper right')
 
 plt.tight_layout()
 # plt.show()
-plt.savefig('Fine-tune-031.png', bbox_inches='tight', dpi=300)
+plt.savefig('data/models/fine-tune-031.png', bbox_inches='tight', dpi=300)

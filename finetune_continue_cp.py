@@ -35,13 +35,14 @@ validation_data_dir = 'data/validation'
 final_model_path = app_config.get('final_model_path')
 
 # number of epochs to train top model
-epochs = app_config.getint('fine_tune_epochs')
+# epochs = app_config.getint('fine_tune_epochs')
+epochs = 100
 
 # batch size used by flow_from_directory and predict_generator
 batch_size = app_config.getint('fine_tune_batch_size')
 
 # the checkpoint to load and continue from
-checkpoint_to_load = "data/models/checkpoints/model-68-0.81.h5"
+checkpoint_to_load = "data/models/checkpoints/model-74-0.81.h5"
 # get the epoch number to continue from
 init_epoch = get_init_epoch(checkpoint_to_load)
 
@@ -143,4 +144,4 @@ plt.legend(['Training', 'Validation'], loc='upper right')
 
 plt.tight_layout()
 # plt.show()
-plt.savefig('Fine-tune-031.png', bbox_inches='tight', dpi=300)
+plt.savefig('data/models/fine-tune-031.png', bbox_inches='tight', dpi=300)
