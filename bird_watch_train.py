@@ -43,6 +43,11 @@ datagen = ImageDataGenerator(
                     fill_mode='nearest',
                     validation_split=0.25)
 
+# define the ImageNet mean subtraction (in RGB order) and set the
+# the mean subtraction value for the data augmentation object
+imagenet_mean = np.array([123.68, 116.779, 103.939], dtype="float32")
+datagen.mean = imagenet_mean
+
 train_generator = datagen.flow_from_directory(
                     train_data_dir,
                     target_size=(img_width, img_height),
