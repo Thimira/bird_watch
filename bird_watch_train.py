@@ -104,7 +104,7 @@ def plot_history(history):
     plt.show()
 
 # create the base pre-trained model
-base_model = InceptionV3(weights='imagenet', include_top=False)
+base_model = InceptionV3(weights='imagenet', include_top=False, input_tensor=Input(shape=(img_width, img_height, 3)))
 
 # add a global spatial average pooling layer
 x = base_model.output
@@ -129,7 +129,7 @@ validation_steps = int(math.ceil(nb_validation_samples / batch_size))
 bn_start_time = datetime.now()
 print("[Info] Model Bottlenecking started at: {}".format(bn_start_time))
 
-early_stop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=10)
+early_stop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
 
 history = model.fit_generator(
             train_generator,
@@ -160,7 +160,9 @@ print("\n")
 print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
 print("[INFO] Loss: {}".format(eval_loss))
 
-
+# reset our data generators
+train_generator.reset()
+validation_generator.reset()
 
 # we chose to train the top 2 inception blocks, i.e. we will freeze
 # the first 249 layers and unfreeze the rest:
