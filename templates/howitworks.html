@@ -26,19 +26,20 @@
         <p class="lead">Bird Watch is a <em>Deep Learning Computer Vision</em> application, developed using Keras and TensorFlow, with Flask for the web application.</p>
         
     </div>
+    <div class="container text-center">
+        <figure class="figure">
+            <img src="{{ url_for('static', filename='images/DeepLearningVenn.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="What is deep learning">
+            <figcaption class="figure-caption">What is deep learning?</figcaption>
+        </figure>
+    </div>
     <div class="container">
-        <div class="media">
-            <img src="{{ url_for('static', filename='images/DeepLearningVenn.png') }}" class="mr-3 img-thumbnail" alt="What is deep learning">
-            <div class="media-body">
-                <h5 class="mt-0">What is Deep Learning?</h5>
-                <p>Deep Learning is a subset of Machine Learning which focuses on an area of algorithms inspired by our understanding of how the brain works to obtain knowledge.</p>
-                <p><strong>Intelligent Machines:</strong> The idea that machines can one day be as intelligent as humans.</p>
-                <p><strong>Artificial Intelligence:</strong> The formal research field for which the goal is to build intelligent machines.</p>
-                <p><strong>Machine Learning:</strong> A subset of Artificial Intelligence which aims at providing machines the ability to learn without explicit programming.</p>
-                <p><strong>Deep Learning:</strong> A subset of Machine Learning where <em>Hierarchical Feature Learning</em> (which was inspired by how our brains work) to obtain knowledge.</p>
-                <p>Read more about Deep Learning and its capabilities here: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a></p>
-            </div>
-        </div>
+        <h5 class="mt-0">What is Deep Learning?</h5>
+        <p>Deep Learning is a subset of Machine Learning which focuses on an area of algorithms inspired by our understanding of how the brain works to obtain knowledge.</p>
+        <p><strong>Intelligent Machines:</strong> The idea that machines can one day be as intelligent as humans.</p>
+        <p><strong>Artificial Intelligence:</strong> The formal research field for which the goal is to build intelligent machines.</p>
+        <p><strong>Machine Learning:</strong> A subset of Artificial Intelligence which aims at providing machines the ability to learn without explicit programming.</p>
+        <p><strong>Deep Learning:</strong> A subset of Machine Learning where <em>Hierarchical Feature Learning</em> (which was inspired by how our brains work) to obtain knowledge.</p>
+        <p>Read more about Deep Learning and its capabilities here: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a></p>
     </div>
     <br />
     <div class="container text-center">
@@ -53,7 +54,12 @@
         <p>The InceptionV3 deep learning model was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
         <p>The images are processed in 400x400 pixel resolution. The model was trained for 100 iterations on bottleneck features and then fine-tuned for a further 100 iterations.</p>
         <p>The full model is shown below:</p>
-        <img src="{{ url_for('static', filename='images/model.png') }}" class="img-fluid" alt="The deep learning model structure of bird watch">
+    </div>
+    <div class="container text-center">
+        <figure class="figure">
+            <img src="{{ url_for('static', filename='images/model.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The Deep Learning model structure of Bird Watch">
+            <figcaption class="figure-caption">The Deep Learning model structure of Bird Watch</figcaption>
+        </figure>
     </div>
     <br />
     <br />
