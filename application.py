@@ -37,6 +37,7 @@ dynamoDBClient = boto3.client('dynamodb', region_name=app_config.get('aws_redion
 
 predictions_log = dynamodb.Table('birdwatch_predictions_log')
 customer_feedback_tbl = dynamodb.Table('birdwatch_customer_feedback')
+settings_tbl = dynamodb.Table('birdwatch_settings')
 
 '''The domain name we will be using for our website. This will be used for SEO'''
 site_domain = app_config.get('site_domain')
@@ -161,7 +162,8 @@ def index():
                                         height=orig_height,
                                         analytics_id=analytics_id,
                                         prediction_id=prediction_id,
-                                        num_classes=len(class_dictionary)
+                                        num_classes=len(class_dictionary),
+                                        app_version=get_setting('application_version')
                                         )
         else:
             print("[Error] Unauthorized file extension: {}".format(file_extension))
@@ -169,10 +171,12 @@ def index():
             return redirect(url_for('index'))
     else:
         # handling the GET, HEAD, and any other methods
+
         with application.app_context():
             return render_template('index.html', 
                                     analytics_id=analytics_id,
-                                    num_classes=len(class_dictionary)
+                                    num_classes=len(class_dictionary),
+                                    app_version=get_setting('application_version')
                                     )
 
 
@@ -246,6 +250,15 @@ def customer_feedback():
 
     return jsonify(success=True)
 
+def get_setting(setting_id):
+    response = settings_tbl.get_item(
+                                    Key={
+                                    'setting_key': setting_id
+                                    }
+                                )
+    return response['Item']['setting_value']
+
+
 def about():
     return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary)
 
@@ -257,6 +270,9 @@ def sitemap():
         """Generate sitemap.xml. Makes a list of urls and date modified."""
         pages=[]
         app_modified_time = app_config.get('app_modified_time', '2019-05-25T10:00:00Z')
+
+        app_modified_time = get_setting('app_modified_time')
+
         app_modified_time = datetime.strptime(app_modified_time, "%Y-%m-%dT%H:%M:%SZ")
         modified_time = str(app_modified_time.replace(microsecond=0).isoformat()) + 'Z'
         if ((app_modified_time - datetime.utcnow()).days > 7):
