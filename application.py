@@ -275,8 +275,7 @@ def sitemap():
 
         app_modified_time = datetime.strptime(app_modified_time, "%Y-%m-%dT%H:%M:%SZ")
         modified_time = str(app_modified_time.replace(microsecond=0).isoformat()) + 'Z'
-        if ((app_modified_time - datetime.utcnow()).days > 7):
-            modified_time = str((datetime.utcnow() - timedelta(days=7)).replace(microsecond=0).isoformat()) + 'Z'
+
         # static pages
         for rule in application.url_map.iter_rules():
             if "GET" in rule.methods and len(rule.arguments)==0:
