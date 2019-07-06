@@ -78,7 +78,7 @@ print("[Info] Class Labels: {}".format(train_generator.class_indices))
 # save the class indices for use in the predictions
 np.save(class_indices_path, train_generator.class_indices)
 
-def plot_history(history):
+def plot_history(history, save_fig=False, save_path='data/models-new/training.png'):
     plt.rcParams["figure.figsize"] = (12, 9)
 
     plt.style.use('ggplot')
@@ -106,7 +106,11 @@ def plot_history(history):
     plt.legend(['Training', 'Validation'], loc='upper right')
 
     plt.tight_layout()
-    plt.show()
+    
+    if save_fig:
+        plt.savefig(save_path, bbox_inches='tight', dpi=300)
+    else:
+        plt.show()
 
 # create the base pre-trained model
 base_model = InceptionV3(weights='imagenet', include_top=False, input_tensor=Input(shape=(img_width, img_height, 3)))
@@ -146,7 +150,7 @@ history = model.fit_generator(
 
 print("\n")
 
-plot_history(history)
+plot_history(history, save_fig=True, save_path='data/models-new/bottleneck.png')
 
 print("\n")
 
@@ -208,7 +212,7 @@ model.save(final_model_path)
 
 print("\n")
 
-plot_history(history)
+plot_history(history, save_fig=True, save_path='data/models-new/finetune.png')
 
 (eval_loss, eval_accuracy) = model.evaluate_generator(
                                 validation_generator,
