@@ -165,6 +165,8 @@ print("\n")
 print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
 print("[INFO] Loss: {}".format(eval_loss))
 
+model.save("data/models-new/int_model_033.h5")
+
 # reset our data generators
 train_generator.reset()
 validation_generator.reset()
@@ -183,6 +185,13 @@ model.compile(optimizer=optimizers.SGD(lr=0.0001, momentum=0.9),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
+filepath="data/models-new/checkpoints/model-{epoch:02d}-{val_acc:.2f}-{val_loss:.2f}.h5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='min')
+
+early_stop_ft = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
+
+callbacks_list = [early_stop_ft, checkpoint]
+
 ft_start_time = datetime.now()
 print("[Info] Model Fine-tuning started at: {}".format(ft_start_time))
 
@@ -191,7 +200,11 @@ history = model.fit_generator(
             steps_per_epoch=train_steps,
             epochs=fine_tune_epochs,
             validation_data=validation_generator,
-            validation_steps=validation_steps)
+            validation_steps=validation_steps,
+            callbacks=callbacks_list)
+
+print("[Info] Saving final model to disk: {}".format(final_model_path))
+model.save(final_model_path)
 
 print("\n")
 
@@ -210,10 +223,6 @@ print("[Info] Total time for Fine-tuning: {}".format(ft_duration))
 
 tot_duration = ft_end_time - bn_start_time
 print("[Info] Total time for training: {}".format(tot_duration))
-
-print("[Info] Saving final model to disk: {}".format(final_model_path))
-model.save(final_model_path)
-
 
 print("\n")
 
