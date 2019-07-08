@@ -13,6 +13,11 @@ import cv2
 import os
 import sys
 import configparser
+import warnings
+
+# filter out unwanted "Corrupt EXIF data" warnings from PIL
+# https://github.com/python-pillow/Pillow/issues/518
+warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
 
 config = configparser.ConfigParser()
 config.read('conf/application.ini')
@@ -26,6 +31,7 @@ img_height = app_config.getint('img_height')
 train_data_dir = 'data/train'
 
 class_indices_path = app_config.get('class_dictionary_path')
+initial_model_path = app_config.get('initial_model_path')
 final_model_path = app_config.get('final_model_path')
 
 # number of epochs to train top model
@@ -111,6 +117,10 @@ def plot_history(history, save_fig=False, save_path='data/models-new/training.pn
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
     else:
         plt.show()
+    
+    # clear and close the current figure
+    plt.clf()
+    plt.close()
 
 # create the base pre-trained model
 base_model = InceptionV3(weights='imagenet', include_top=False, input_tensor=Input(shape=(img_width, img_height, 3)))
@@ -148,8 +158,6 @@ history = model.fit_generator(
             validation_steps=validation_steps,
             callbacks=[early_stop])
 
-print("\n")
-
 plot_history(history, save_fig=True, save_path='data/models-new/bottleneck.png')
 
 print("\n")
@@ -169,7 +177,8 @@ print("\n")
 print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
 print("[INFO] Loss: {}".format(eval_loss))
 
-model.save("data/models-new/int_model_033.h5")
+print("[Info] Saving initial model to disk: {}".format(initial_model_path))
+model.save(initial_model_path)
 
 # reset our data generators
 train_generator.reset()
