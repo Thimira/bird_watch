@@ -50,14 +50,23 @@
     </div>
     <br />
     <div class="container">
-        <p>The system uses a Convolutional Neural Network.</p>
-        <p>The InceptionV3 deep learning model was used as the base model and was trained using transfer learning and fine-tuning techniques.</p>
-        <p>The images are processed in 400x400 pixel resolution. The model was trained for 100 iterations on bottleneck features and then fine-tuned for a further 100 iterations.</p>
-        <p>The full model is shown below:</p>
+        <p>Bird Watch is a Deep Learning Computer Vision system, that uses a Convolutional Neural Network (a type of deep learning model which works exceptionally well with vision tasks).</p>
+        <p>The Bird Watch model is currently built on top of the InceptionV3 deep learning model. InceptionV3 is an evolution of the GoogLeNet, which won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) in 2015, with a top-5 error rate of just 3.5% (See more on InceptionV3 here: <a href="https://arxiv.org/abs/1512.00567" target="_blank">https://arxiv.org/abs/1512.00567</a>). With InceptionV3 as base a convolutional model was built and trained using transfer learning and fine-tuning techniques.</p>
+        <p>One of the most challenging aspects of the Bird Watch project is to gather proper training data for the system. Our dataset is currently around 15000 - and growing - labeled images of various bird species. The training images, and the input images, are processed in 398x398 pixel resolution, which was selected after experimentation to give the current best accuracy. The model was trained and then fine-tuned over many iterations with model checkpointing and early stopping in order to get the best performing training configuration. Data augmentation was also used on the training dataset as a means to reduce overfitting of the model.</p>
+        <p>The system currently has a top-1 error rate of about 15% while a top-5 error rate of about 8%. The current model training graph is shown below:</p>
     </div>
     <div class="container text-center">
         <figure class="figure">
-            <img src="{{ url_for('static', filename='images/model.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The Deep Learning model structure of Bird Watch">
+            <img src="{{ url_for('static', filename='images/training.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The model training graph of the current version of Bird Watch">
+            <figcaption class="figure-caption">The model training graph of the current version of Bird Watch</figcaption>
+        </figure>
+    </div>
+    <div class="container">
+        <p>The full model structure of Bird Watch is shown below. We are constantly experimenting with the model structure in order to increase the accuracy:</p>
+    </div>
+    <div class="container text-center">
+        <figure class="figure">
+            <img src="{{ url_for('static', filename='images/model.svg') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The Deep Learning model structure of Bird Watch">
             <figcaption class="figure-caption">The Deep Learning model structure of Bird Watch</figcaption>
         </figure>
     </div>
