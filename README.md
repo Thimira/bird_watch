@@ -6,7 +6,7 @@ A Deep Learning based Bird Image Identification System, using Keras, TensorFlow,
 
 The *'Bird Watch'* project, created by an amateur photographer and a machine learning enthusiast, is a solution to a simple problem faced by fellow wildlife photographers: a way to identify birds in photographs. The application is developed using Keras and TensorFlow, with Flask for the web application. InceptionV3 was used as the base model and was trained using transfer learning and fine-tuning techniques.
 
-The live application can be found at [http://www.birdwatch.photo/](http://www.birdwatch.photo/)
+The live application can be found at [https://www.birdwatch.photo/](https://www.birdwatch.photo/)
 
 ## Usage
 
