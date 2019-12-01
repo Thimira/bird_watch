@@ -260,10 +260,10 @@ def get_setting(setting_id):
 
 
 def about():
-    return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary)
+    return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary, app_version=get_setting('application_version'))
 
 def howitworks():
-    return render_template('howitworks.html', analytics_id=analytics_id)
+    return render_template('howitworks.html', analytics_id=analytics_id, app_version=get_setting('application_version'))
 
 def sitemap():
     try:
