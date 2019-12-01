@@ -55,6 +55,9 @@ analytics_id = app_config.get('analytics_id')
 
 # Advertising IDs
 amzn_assoc_id = app_config.get('amzn_assoc_id')
+amzn_assoc_banner_id = app_config.get('amzn_assoc_banner_id')
+amzn_assoc_linkid = app_config.get('amzn_assoc_linkid')
+amzn_native_ad_id = app_config.get('amzn_native_ad_id')
 
 global model, graph
 graph = tf.get_default_graph()
@@ -266,7 +269,14 @@ def about():
     return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary, app_version=get_setting('application_version'))
 
 def howitworks():
-    return render_template('howitworks.html', analytics_id=analytics_id, app_version=get_setting('application_version'), amzn_assoc_id=amzn_assoc_id)
+    return render_template('howitworks.html', 
+                            analytics_id=analytics_id, 
+                            app_version=get_setting('application_version'), 
+                            amzn_assoc_id=amzn_assoc_id,
+                            amzn_assoc_banner_id=amzn_assoc_banner_id,
+                            amzn_assoc_linkid=amzn_assoc_linkid,
+                            amzn_native_ad_id=amzn_native_ad_id
+                            )
 
 def sitemap():
     try:
