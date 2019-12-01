@@ -39,21 +39,63 @@
         <p><strong>Artificial Intelligence:</strong> The formal research field for which the goal is to build intelligent machines.</p>
         <p><strong>Machine Learning:</strong> A subset of Artificial Intelligence which aims at providing machines the ability to learn without explicit programming.</p>
         <p><strong>Deep Learning:</strong> A subset of Machine Learning where <em>Hierarchical Feature Learning</em> (which was inspired by how our brains work) to obtain knowledge.</p>
-        <p>Read more about Deep Learning and its capabilities here: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a></p>
+        <p>Read more about Deep Learning and its capabilities here: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank" rel="nofollow">Codes of Interest: What is Deep Learning?</a></p>
     </div>
     <br />
     <div class="container text-center">
         <figure class="figure">
             <img src="{{ url_for('static', filename='images/MLTimeline.png') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The history of deep learning">
-            <figcaption class="figure-caption">The history of deep learning. (Image source: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank">Codes of Interest: What is Deep Learning?</a>)</figcaption>
+            <figcaption class="figure-caption">The history of deep learning. (Image source: <a href="https://www.codesofinterest.com/p/what-is-deep-learning.html" target="_blank" rel="nofollow">Codes of Interest: What is Deep Learning?</a>)</figcaption>
         </figure>
     </div>
     <br />
-    <div class="container">
+    
         <p>Bird Watch is a Deep Learning Computer Vision system, that uses a Convolutional Neural Network (a type of deep learning model which works exceptionally well with vision tasks).</p>
-        <p>The Bird Watch model is currently built on top of the InceptionV3 deep learning model. InceptionV3 is an evolution of the GoogLeNet, which won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) in 2015, with a top-5 error rate of just 3.5% (See more on InceptionV3 here: <a href="https://arxiv.org/abs/1512.00567" target="_blank">https://arxiv.org/abs/1512.00567</a>). With InceptionV3 as base a convolutional model was built and trained using transfer learning and fine-tuning techniques.</p>
-        <p>One of the most challenging aspects of the Bird Watch project is to gather proper training data for the system. Our dataset is currently around 15000 - and growing - labeled images of various bird species. The training images, and the input images, are processed in 398x398 pixel resolution, which was selected after experimentation to give the current best accuracy. The model was trained and then fine-tuned over many iterations with model checkpointing and early stopping in order to get the best performing training configuration. Data augmentation was also used on the training dataset as a means to reduce overfitting of the model.</p>
-        <p>The system currently has a top-1 error rate of about 15% while a top-5 error rate of about 8%. The current model training graph is shown below:</p>
+        <p>The Bird Watch model is currently built on top of the InceptionV3 deep learning model. InceptionV3 is an evolution of the GoogLeNet, which won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) in 2015, with a top-5 error rate of just 3.5% (See more on InceptionV3 here: <a href="https://arxiv.org/abs/1512.00567" target="_blank" rel="nofollow">https://arxiv.org/abs/1512.00567</a>). With InceptionV3 as base a convolutional model was built and trained using transfer learning and fine-tuning techniques.</p>
+        <p>The system currently has a top-1 error rate of about 15% while a top-5 error rate of about 8% (85% and 92% accuracy respectively). Our ongoing work hopes to increase these accuracy values.</p>
+        <p>One of the most challenging aspects of the Bird Watch project is to gather proper training data for the system. Our dataset is currently around 20000 - and growing - labeled images of various bird species. The training images, and the input images, are processed in 398x398 pixel resolution, which was selected after experimentation to give the current best accuracy. The model was trained and then fine-tuned over many iterations with model checkpointing and early stopping in order to get the best performing training configuration. Data augmentation was also used on the training dataset as a means to reduce overfitting of the model.</p>
+        <p>The majority of the model training was done on a single machine with an Intel Core i7 8800 and a Nvidia RTX 2070, on Windows 10 and Python 3.6 64-Bit.</p>
+    </div>
+    {% if amzn_assoc_id %}
+    <div class="container">
+        <p class="figure-caption"><small>Sponsored</small></p>
+        <div class="alignleft">
+            <script type="text/javascript">
+                  amzn_assoc_ad_type = "banner";
+           amzn_assoc_marketplace = "amazon";
+           amzn_assoc_region = "US";
+           amzn_assoc_placement = "assoc_banner_placement_default";
+           amzn_assoc_campaigns = "computers_accesories";
+           amzn_assoc_banner_type = "category";
+           amzn_assoc_p = "48";
+           amzn_assoc_isresponsive = "false";
+           amzn_assoc_banner_id = "{{amzn_assoc_banner_id}}";
+           amzn_assoc_width = "728";
+           amzn_assoc_height = "90";
+           amzn_assoc_tracking_id = "{{amzn_assoc_id}}";
+           amzn_assoc_linkid = "{{amzn_assoc_linkid}}";
+            </script>
+            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
+        </div>
+        <p class="figure-caption"><small>As an Amazon Associate we earn from qualifying purchases.</small></p>
+    </div>
+    {% endif %}
+    <div class="container">
+        <p>The main code gist for the model training is shown below, and the full code of the project - including the code for training, inference and the Flask webapp - can be accessed from the <a href="https://github.com/Thimira/bird_watch" target="_blank" rel="nofollow">GitHub repository</a> of the project:</p>
+    </div>
+
+    <div class="container">
+        <script src="https://gist.github.com/Thimira/8f5d77a5df3aa96a195e6f7f8c62e751.js"></script>
+    </div>
+    {% if amzn_assoc_id %}
+    <div class="container">
+        <p class="figure-caption"><small>Sponsored</small></p>
+        <div id="amzn-assoc-ad-{{amzn_native_ad_id}}"></div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId={{amzn_native_ad_id}}"></script>
+        <p class="figure-caption"><small>As an Amazon Associate we earn from qualifying purchases.</small></p>
+    </div>
+    {% endif %}
+    <div class="container">
+        <p>The current model training history graph is shown below:</p>
     </div>
     <div class="container text-center">
         <figure class="figure">
@@ -62,13 +104,21 @@
         </figure>
     </div>
     <div class="container">
-        <p>The full model structure of Bird Watch is shown below. We are constantly experimenting with the model structure in order to increase the accuracy:</p>
+        <p>As we're using model checkpoints and early-stopping in Keras, the training plateau was achieved at around ~30 epochs. However, the training takes around 10+ hours in our current machine config.</p>
+    </div>
+    <div class="container">
+        <p>The full model structure of Bird Watch is shown below:</p>
+        <p>Apart from the head layers of the network (the dense layers below the GlobalAveragePooling2D layer) the remaining architecture is currently from the InceptionV3 network.</p>
+        <p>We are constantly experimenting with the model structure in order to increase the accuracy.</p>
     </div>
     <div class="container text-center">
         <figure class="figure">
             <img src="{{ url_for('static', filename='images/model.svg') }}" class="figure-img img-fluid rounded mx-auto d-block" alt="The Deep Learning model structure of Bird Watch">
             <figcaption class="figure-caption">The Deep Learning model structure of Bird Watch</figcaption>
         </figure>
+    </div>
+    <div class="container">
+        <p>The model structure image is generated using Netron, a visualizer and viewer for neural network, deep learning and machine learning models: <a href="https://github.com/lutzroeder/netron" target="_blank" rel="nofollow">https://github.com/lutzroeder/netron</a></p>
     </div>
     <br />
     <br />
