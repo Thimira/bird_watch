@@ -53,6 +53,9 @@ class_dictionary = np.load(app_config.get('class_dictionary_path')).item()
 # Google analytics property ID
 analytics_id = app_config.get('analytics_id')
 
+# Advertising IDs
+amzn_assoc_id = app_config.get('amzn_assoc_id')
+
 global model, graph
 graph = tf.get_default_graph()
 model = load_model(final_model_path)
@@ -263,7 +266,7 @@ def about():
     return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary, app_version=get_setting('application_version'))
 
 def howitworks():
-    return render_template('howitworks.html', analytics_id=analytics_id, app_version=get_setting('application_version'))
+    return render_template('howitworks.html', analytics_id=analytics_id, app_version=get_setting('application_version'), amzn_assoc_id=amzn_assoc_id)
 
 def sitemap():
     try:
