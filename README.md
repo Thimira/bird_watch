@@ -46,26 +46,14 @@ In order to train with you own images, create a `data/train` directory and place
 Once you have the data ready, you can run,
 
 ```bash
-python bird_watch_bottleneck.py --bottleneck-save 1 --top-model-train 1
+python bird_watch_train.py
 ```
 
-This will save the bottleneck features and train the base model on them.
+This will run the combined training and fine-tuning script which will generate the final model files.
 
-You can evaluate the base model by running,
+Note: The training may take 10+ hours to run, even on a GPU such as a RTX 2070.
 
-```bash
-python bird_watch_bottleneck.py --predict 1
-```
-
-Once you have the base model working, you can fine-tune it for greater accuracy by running,
-
-```bash
-python bird_watch_finetune.py
-```
-
-Note: Fine-tuning may take hours to run, even on a GPU.
-
-Once the fine-tuning is over, you will have `final_model_*.h5` and `class_indices_*.npy` in your `data/models` directory. Copy them over to your top level `models` directory and you'll be good to go.
+Once the training is over, you will have `final_model_*.h5` and `class_indices_*.npy` in your `data/models` directory. Copy them over to your top level `models` directory and you'll be good to go.
 
 ## Dependencies
 
