@@ -8,7 +8,7 @@ from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dropout, Flatten, Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras import optimizers
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from birdwatch.callbacks import TrainingMonitor
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
@@ -82,7 +82,8 @@ app_config = config['training']
 img_width = app_config.getint('img_width')
 img_height = app_config.getint('img_height')
 
-train_data_dir = 'data/train_augmented'
+train_data_dir = os.path.join('data', 'train_f')
+validation_data_dir = os.path.join('data', 'validation_f')
 model_dir = app_config.get('model_dir')
 
 class_indices_path = app_config.get('class_dictionary_path')
@@ -135,35 +136,49 @@ if load_from_checkpoint_finetune:
     print("[Info] Training checkpoint found for epoch {}. Will continue from that step.".format(init_epoch_finetune))
 
 
-datagen = ImageDataGenerator(
-                    rescale=1. / 255,
-                    rotation_range=20,
+# datagen = ImageDataGenerator(
+#                     rescale=1. / 255,
+#                     rotation_range=20,
+#                     shear_range=0.2,
+#                     zoom_range=0.2,
+#                     horizontal_flip=True,
+#                     fill_mode='nearest',
+#                     validation_split=0.25)
+
+datagen_train = ImageDataGenerator(
+                    rescale=1/255,
+                    rotation_range=40,
+                    width_shift_range=0.2,
+                    height_shift_range=0.2,
                     shear_range=0.2,
                     zoom_range=0.2,
                     horizontal_flip=True,
-                    fill_mode='nearest',
-                    validation_split=0.25)
+                    fill_mode='nearest')
+
+datagen_validation = ImageDataGenerator(
+                    rescale=1/255,
+                    )
 
 # define the ImageNet mean subtraction (in RGB order) and set the
 # the mean subtraction value for the data augmentation object
 imagenet_mean = np.array([123.68, 116.779, 103.939], dtype="float32")
-datagen.mean = imagenet_mean
+# datagen.mean = imagenet_mean
+datagen_train.mean = imagenet_mean
+datagen_validation.mean = imagenet_mean
 
-train_generator = datagen.flow_from_directory(
+train_generator = datagen_train.flow_from_directory(
                     train_data_dir,
                     target_size=(img_width, img_height),
                     batch_size=batch_size,
                     class_mode='categorical',
-                    interpolation='lanczos',
-                    subset='training')
+                    interpolation='lanczos')
 
-validation_generator = datagen.flow_from_directory(
-                    train_data_dir,
-                    target_size=(img_width, img_height),
-                    batch_size=batch_size,
-                    class_mode='categorical',
-                    interpolation='lanczos',
-                    subset='validation')
+validation_generator = datagen_validation.flow_from_directory(
+                        validation_data_dir,
+                        target_size=(img_width, img_height),
+                        batch_size=batch_size,
+                        class_mode='categorical',
+                        interpolation='lanczos')
 
 nb_train_samples = len(train_generator.filenames)
 nb_validation_samples = len(validation_generator.filenames)
@@ -178,6 +193,14 @@ print("[Info] Class Labels: {}".format(train_generator.class_indices))
 
 # save the class indices for use in the predictions
 np.save(class_indices_path, train_generator.class_indices)
+
+# calculating class weights
+labels_count = dict()
+for img_class in [ic for ic in os.listdir(train_data_dir) if ic[0] != '.']:
+    labels_count[img_class] = len(os.listdir(os.path.join(train_data_dir, img_class)))
+total_count = sum(labels_count.values())
+class_weights = {cls: total_count / count for cls, count in 
+                 enumerate(labels_count.values())}
 
 if run_training:
     if load_from_checkpoint_train:
@@ -214,7 +237,9 @@ if run_training:
     filepath = training_checkpoint_dir + "/model-{epoch:02d}-{val_acc:.2f}-{val_loss:.2f}.h5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='min')
 
-    early_stop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
+    early_stop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5, restore_best_weights=True)
+
+    reduce_lr = ReduceLROnPlateau(patience=3)
 
     figPath = os.path.join(model_dir, 'checkpoints', 'progress', 'train.png')
     jsonPath = os.path.join(model_dir, 'checkpoints', 'progress', 'train.json')
@@ -222,7 +247,7 @@ if run_training:
     # TypeError: Object of type float32 is not JSON serializable
     # train_monitor = TrainingMonitor(figPath)
 
-    callbacks_list = [early_stop, checkpoint, train_monitor]
+    callbacks_list = [early_stop, reduce_lr, checkpoint, train_monitor]
 
     history = model.fit_generator(
                 train_generator,
@@ -230,6 +255,7 @@ if run_training:
                 epochs=train_epochs,
                 validation_data=validation_generator,
                 validation_steps=validation_steps,
+                class_weight=class_weights,
                 initial_epoch=init_epoch_train,
                 max_queue_size=15,
                 workers=8,
@@ -303,6 +329,7 @@ if run_finetune:
                 epochs=fine_tune_epochs,
                 validation_data=validation_generator,
                 validation_steps=validation_steps,
+                class_weight=class_weights,
                 initial_epoch=init_epoch_finetune,
                 max_queue_size=15,
                 workers=8,
