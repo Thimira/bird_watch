@@ -3,9 +3,9 @@ from werkzeug.utils import secure_filename
 
 import numpy as np
 import tensorflow as tf
-from keras.preprocessing.image import img_to_array, load_img
-from keras.models import Model, load_model
-from keras.utils.np_utils import to_categorical
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.utils.np_utils import to_categorical
 from PIL import Image
 from io import BytesIO
 import os
@@ -67,6 +67,10 @@ ALLOWED_FILETYPES = set(['.jpg', '.jpeg', '.gif', '.png'])
 
 def classify_image(image):
     image = img_to_array(image)
+
+    # perform the ImageNet mean subtraction
+    mean = np.array([123.68, 116.779, 103.939][::1], dtype="float32")
+    image -= mean
 
     # important! otherwise the predictions will be '0'
     image = image / 255.0
