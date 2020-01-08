@@ -235,7 +235,7 @@ if run_training:
             layer.trainable = False
 
         # compile the model (should be done *after* setting layers to non-trainable)
-        model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
+        model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc', 'top_k_categorical_accuracy'])
 
     train_steps = int(math.ceil(nb_train_samples / batch_size))
     validation_steps = int(math.ceil(nb_validation_samples / batch_size))
@@ -317,7 +317,7 @@ if run_finetune:
 
         model.compile(optimizer=optimizers.SGD(lr=0.0001, momentum=0.9), 
                     loss='categorical_crossentropy',
-                    metrics=['acc'])
+                    metrics=['acc', 'top_k_categorical_accuracy'])
 
     filepath = finetune_checkpoint_dir + "/model-{epoch:02d}-{val_acc:.2f}-{val_loss:.2f}.h5"
     checkpoint_ft = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='min')
