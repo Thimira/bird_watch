@@ -25,7 +25,10 @@ import warnings
 warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
 
 # util function to plot the training and validation history
-def plot_history(history, save_fig=False, save_path='data/models-new/training.png'):
+def plot_history(history, save_fig=False, save_path=None):
+    if save_path is None:
+        save_path = os.path.join('data', 'models-new', 'training.png')
+    
     plt.rcParams["figure.figsize"] = (12, 9)
 
     plt.style.use('ggplot')
@@ -69,6 +72,17 @@ def get_init_epoch(checkpoint_path):
     filename = os.path.splitext(filename)[0]
     init_epoch = filename.split("-")[1]
     return int(init_epoch)
+
+# util function to calculate the class weights based on the number of samples on each class
+# this is useful with datasets that are higly skewed datasets (data sets where the number of samples in each class differs vastly)
+def get_class_weights(class_data_dir):
+    labels_count = dict()
+    for img_class in [ic for ic in os.listdir(class_data_dir) if ic[0] != '.']:
+        labels_count[img_class] = len(os.listdir(os.path.join(class_data_dir, img_class)))
+    total_count = sum(labels_count.values())
+    class_weights = {cls: total_count / count for cls, count in 
+                    enumerate(labels_count.values())}
+    return class_weights
 
 run_training = True
 run_finetune = True
@@ -146,23 +160,25 @@ if load_from_checkpoint_finetune:
 #                     validation_split=0.25)
 
 datagen_train = ImageDataGenerator(
-                    rescale=1/255,
-                    rotation_range=40,
-                    width_shift_range=0.2,
-                    height_shift_range=0.2,
-                    shear_range=0.2,
-                    zoom_range=0.2,
-                    horizontal_flip=True,
-                    fill_mode='nearest')
+                        rescale=1/255,
+                        rotation_range=40,
+                        width_shift_range=0.2,
+                        height_shift_range=0.2,
+                        shear_range=0.2,
+                        zoom_range=0.2,
+                        horizontal_flip=True,
+                        fill_mode='nearest',
+                        featurewise_center=True # this is to use the mean substraction of ImageNet
+                    )
 
 datagen_validation = ImageDataGenerator(
-                    rescale=1/255,
+                        rescale=1/255,
+                        featurewise_center=True # this is to use the mean substraction of ImageNet
                     )
 
 # define the ImageNet mean subtraction (in RGB order) and set the
 # the mean subtraction value for the data augmentation object
 imagenet_mean = np.array([123.68, 116.779, 103.939], dtype="float32")
-# datagen.mean = imagenet_mean
 datagen_train.mean = imagenet_mean
 datagen_validation.mean = imagenet_mean
 
@@ -194,13 +210,8 @@ print("[Info] Class Labels: {}".format(train_generator.class_indices))
 # save the class indices for use in the predictions
 np.save(class_indices_path, train_generator.class_indices)
 
-# calculating class weights
-labels_count = dict()
-for img_class in [ic for ic in os.listdir(train_data_dir) if ic[0] != '.']:
-    labels_count[img_class] = len(os.listdir(os.path.join(train_data_dir, img_class)))
-total_count = sum(labels_count.values())
-class_weights = {cls: total_count / count for cls, count in 
-                 enumerate(labels_count.values())}
+# get the class weights
+class_weights = get_class_weights(train_data_dir)
 
 if run_training:
     if load_from_checkpoint_train:
@@ -261,7 +272,7 @@ if run_training:
                 workers=8,
                 callbacks=callbacks_list)
 
-    plot_history(history, save_fig=True, save_path='data/models-new/bottleneck.png')
+    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models-new', 'bottleneck.png'))
 
     print("\n")
 
@@ -340,7 +351,7 @@ if run_finetune:
 
     print("\n")
 
-    plot_history(history, save_fig=True, save_path='data/models-new/finetune.png')
+    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models-new', 'finetune.png'))
 
     (eval_loss, eval_accuracy) = model.evaluate_generator(
                                     validation_generator,
