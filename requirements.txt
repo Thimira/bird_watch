@@ -9,5 +9,5 @@ scipy==1.2.1
 Pillow==6.2.0
 h5py==2.9.0
 Keras==2.2.4
-tensorflow==1.15.0
+tensorflow==1.15.2
 boto3==1.9.134
