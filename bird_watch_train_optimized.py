@@ -115,9 +115,9 @@ if os.path.isfile(initial_model_path):
     run_training = False
     print("[Info] Initial model exists {}. Skipping training step.".format(initial_model_path))
 
-if os.path.isfile(run_finetune):
+if os.path.isfile(final_model_path):
     run_finetune = False
-    print("[Info] Fine-tuned model exists {}. Skipping fine-tuning step.".format(run_finetune))
+    print("[Info] Fine-tuned model exists {}. Skipping fine-tuning step.".format(final_model_path))
 
 load_from_checkpoint_train = False
 
@@ -212,6 +212,7 @@ np.save(class_indices_path, train_generator.class_indices)
 
 # get the class weights
 class_weights = get_class_weights(train_data_dir)
+print(class_weights)
 
 if run_training:
     if load_from_checkpoint_train:
