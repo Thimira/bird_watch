@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.models import Model, load_model
-from tensorflow.keras.utils.np_utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from PIL import Image
 from io import BytesIO
 import os
@@ -20,16 +20,20 @@ import boto3
 from decimal import Decimal
 
 config = configparser.ConfigParser()
-config.read('conf/application.ini')
+config.read('conf/production.ini')
 
 app_config = config['default']
 
 # https://github.com/tensorflow/tensorflow/issues/24828
-from tensorflow.keras.backend import set_session
-config = tf.ConfigProto()
+# from tensorflow.keras.backend import set_session
+# config = tf.ConfigProto()
+# config.gpu_options.allow_growth = True
+# session = tf.Session(config=config)
+# set_session(session)
+
+config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
-session = tf.Session(config=config)
-set_session(session)
+session = tf.compat.v1.InteractiveSession(config=config)
 
 # Get the DynamoDB service resource.
 dynamodb = boto3.resource('dynamodb', region_name=app_config.get('aws_redion'))
@@ -48,7 +52,7 @@ img_height = app_config.getint('img_height')
 
 final_model_path = app_config.get('final_model_path')
 
-class_dictionary = np.load(app_config.get('class_dictionary_path')).item()
+class_dictionary = np.load(app_config.get('class_dictionary_path'), allow_pickle=True).item()
 
 # Google analytics property ID
 analytics_id = app_config.get('analytics_id')
@@ -60,7 +64,7 @@ amzn_assoc_linkid = app_config.get('amzn_assoc_linkid')
 amzn_native_ad_id = app_config.get('amzn_native_ad_id')
 
 global model, graph
-graph = tf.get_default_graph()
+# graph = tf.get_default_graph()
 model = load_model(final_model_path)
 
 ALLOWED_FILETYPES = set(['.jpg', '.jpeg', '.gif', '.png'])
@@ -69,8 +73,8 @@ def classify_image(image):
     image = img_to_array(image)
 
     # perform the ImageNet mean subtraction
-    mean = np.array([123.68, 116.779, 103.939][::1], dtype="float32")
-    image -= mean
+    # mean = np.array([123.68, 116.779, 103.939][::1], dtype="float32")
+    # image -= mean
 
     # important! otherwise the predictions will be '0'
     image = image / 255.0
@@ -80,8 +84,8 @@ def classify_image(image):
     image = np.expand_dims(image, axis=0)
 
     # get the probabilities for the prediction
-    with graph.as_default():
-        probabilities = model.predict(image)
+    # with graph.as_default():
+    probabilities = model.predict(image)
 
     prediction_probability = probabilities[0, probabilities.argmax(axis=1)][0]
 
