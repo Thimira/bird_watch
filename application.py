@@ -290,7 +290,7 @@ def sitemap():
     try:
         """Generate sitemap.xml. Makes a list of urls and date modified."""
         pages=[]
-        app_modified_time = app_config.get('app_modified_time', '2019-05-25T10:00:00Z')
+        app_modified_time = app_config.get('app_modified_time', '2020-09-13T10:45:49Z')
 
         app_modified_time = get_setting('app_modified_time')
 
@@ -338,7 +338,7 @@ application.add_url_rule('/feedback', 'feedback', customer_feedback, methods=['P
 
 
 application.add_url_rule('/about', 'about', about, methods=['GET'])
-application.add_url_rule('/howitworks', 'howitworks', howitworks, methods=['GET'])
+# application.add_url_rule('/howitworks', 'howitworks', howitworks, methods=['GET'])
 
 application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
 application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])

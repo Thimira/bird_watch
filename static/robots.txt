@@ -1,3 +1,3 @@
 User-agent: * 
 Disallow: 
-Sitemap: https://www.birdwatch.photo/sitemap.xml
+Sitemap: https://app.birdwatch.photo/sitemap.xml
