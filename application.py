@@ -58,10 +58,7 @@ class_dictionary = np.load(app_config.get('class_dictionary_path'), allow_pickle
 analytics_id = app_config.get('analytics_id')
 
 # Advertising IDs
-amzn_assoc_id = app_config.get('amzn_assoc_id')
-amzn_assoc_banner_id = app_config.get('amzn_assoc_banner_id')
-amzn_assoc_linkid = app_config.get('amzn_assoc_linkid')
-amzn_native_ad_id = app_config.get('amzn_native_ad_id')
+publisher_id = app_config.get('publisher_id')
 
 global model, graph
 # graph = tf.get_default_graph()
@@ -175,6 +172,7 @@ def index():
                                         width=orig_width,
                                         height=orig_height,
                                         analytics_id=analytics_id,
+                                        publisher_id=publisher_id,
                                         prediction_id=prediction_id,
                                         num_classes=len(class_dictionary),
                                         app_version=get_setting('application_version')
@@ -189,6 +187,7 @@ def index():
         with application.app_context():
             return render_template('index.html', 
                                     analytics_id=analytics_id,
+                                    publisher_id=publisher_id,
                                     num_classes=len(class_dictionary),
                                     app_version=get_setting('application_version')
                                     )
@@ -274,16 +273,13 @@ def get_setting(setting_id):
 
 
 def about():
-    return render_template('about.html', analytics_id=analytics_id, classes=class_dictionary, app_version=get_setting('application_version'))
+    return render_template('about.html', analytics_id=analytics_id, publisher_id=publisher_id, classes=class_dictionary, app_version=get_setting('application_version'))
 
 def howitworks():
     return render_template('howitworks.html', 
                             analytics_id=analytics_id, 
+                            publisher_id=publisher_id,
                             app_version=get_setting('application_version'), 
-                            amzn_assoc_id=amzn_assoc_id,
-                            amzn_assoc_banner_id=amzn_assoc_banner_id,
-                            amzn_assoc_linkid=amzn_assoc_linkid,
-                            amzn_native_ad_id=amzn_native_ad_id
                             )
 
 def sitemap():

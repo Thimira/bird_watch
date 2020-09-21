@@ -12,6 +12,9 @@
             gtag('config', '{{analytics_id}}');
         </script>
         {% endif %}
+        {% if publisher_id %}
+        <script data-ad-client="{{publisher_id}}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        {% endif %}
 
         <!-- Required meta tags -->
         <meta charset="utf-8">

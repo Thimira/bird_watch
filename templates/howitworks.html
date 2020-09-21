@@ -56,30 +56,6 @@
         <p>One of the most challenging aspects of the Bird Watch project is to gather proper training data for the system. Our dataset is currently around 20000 - and growing - labeled images of various bird species. The training images, and the input images, are processed in 398x398 pixel resolution, which was selected after experimentation to give the current best accuracy. The model was trained and then fine-tuned over many iterations with model checkpointing and early stopping in order to get the best performing training configuration. Data augmentation was also used on the training dataset as a means to reduce overfitting of the model.</p>
         <p>The majority of the model training was done on a single machine with an Intel Core i7 8800 and a Nvidia RTX 2070, on Windows 10 and Python 3.6 64-Bit.</p>
     </div>
-    {% if amzn_assoc_id %}
-    <div class="container">
-        <p class="figure-caption"><small>Sponsored</small></p>
-        <div class="alignleft">
-            <script type="text/javascript">
-                  amzn_assoc_ad_type = "banner";
-           amzn_assoc_marketplace = "amazon";
-           amzn_assoc_region = "US";
-           amzn_assoc_placement = "assoc_banner_placement_default";
-           amzn_assoc_campaigns = "computers_accesories";
-           amzn_assoc_banner_type = "category";
-           amzn_assoc_p = "48";
-           amzn_assoc_isresponsive = "false";
-           amzn_assoc_banner_id = "{{amzn_assoc_banner_id}}";
-           amzn_assoc_width = "728";
-           amzn_assoc_height = "90";
-           amzn_assoc_tracking_id = "{{amzn_assoc_id}}";
-           amzn_assoc_linkid = "{{amzn_assoc_linkid}}";
-            </script>
-            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
-        </div>
-        <p class="figure-caption"><small>As an Amazon Associate we earn from qualifying purchases.</small></p>
-    </div>
-    {% endif %}
     <div class="container">
         <p>The main code gist for the model training is shown below, and the full code of the project - including the code for training, inference and the Flask webapp - can be accessed from the <a href="https://github.com/Thimira/bird_watch" target="_blank" rel="nofollow">GitHub repository</a> of the project:</p>
     </div>
@@ -87,13 +63,6 @@
     <div class="container">
         <script src="https://gist.github.com/Thimira/8f5d77a5df3aa96a195e6f7f8c62e751.js"></script>
     </div>
-    {% if amzn_assoc_id %}
-    <div class="container">
-        <p class="figure-caption"><small>Sponsored</small></p>
-        <div id="amzn-assoc-ad-{{amzn_native_ad_id}}"></div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId={{amzn_native_ad_id}}"></script>
-        <p class="figure-caption"><small>As an Amazon Associate we earn from qualifying purchases.</small></p>
-    </div>
-    {% endif %}
     <div class="container">
         <p>The current model training history graph is shown below:</p>
     </div>
