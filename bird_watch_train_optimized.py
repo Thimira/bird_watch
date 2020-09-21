@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
 # util function to plot the training and validation history
 def plot_history(history, save_fig=False, save_path=None):
     if save_path is None:
-        save_path = os.path.join('data', 'models-new', 'training.png')
+        save_path = os.path.join('data', 'models', 'training.png')
     
     plt.rcParams["figure.figsize"] = (12, 9)
 
@@ -149,16 +149,6 @@ if load_from_checkpoint_finetune:
     init_epoch_finetune = get_init_epoch(finetune_checkpoint)
     print("[Info] Training checkpoint found for epoch {}. Will continue from that step.".format(init_epoch_finetune))
 
-
-# datagen = ImageDataGenerator(
-#                     rescale=1. / 255,
-#                     rotation_range=20,
-#                     shear_range=0.2,
-#                     zoom_range=0.2,
-#                     horizontal_flip=True,
-#                     fill_mode='nearest',
-#                     validation_split=0.25)
-
 datagen_train = ImageDataGenerator(
                         rescale=1/255,
                         rotation_range=40,
@@ -167,20 +157,12 @@ datagen_train = ImageDataGenerator(
                         shear_range=0.2,
                         zoom_range=0.2,
                         horizontal_flip=True,
-                        fill_mode='nearest',
-                        featurewise_center=True # this is to use the mean substraction of ImageNet
+                        fill_mode='nearest'
                     )
 
 datagen_validation = ImageDataGenerator(
-                        rescale=1/255,
-                        featurewise_center=True # this is to use the mean substraction of ImageNet
+                        rescale=1/255
                     )
-
-# define the ImageNet mean subtraction (in RGB order) and set the
-# the mean subtraction value for the data augmentation object
-imagenet_mean = np.array([123.68, 116.779, 103.939], dtype="float32")
-datagen_train.mean = imagenet_mean
-datagen_validation.mean = imagenet_mean
 
 train_generator = datagen_train.flow_from_directory(
                     train_data_dir,
@@ -200,6 +182,11 @@ nb_train_samples = len(train_generator.filenames)
 nb_validation_samples = len(validation_generator.filenames)
 num_classes = len(train_generator.class_indices)
 
+train_steps = int(math.ceil(nb_train_samples / batch_size))
+validation_steps = int(math.ceil(nb_validation_samples / batch_size))
+# train_steps = nb_train_samples // batch_size
+# validation_steps = nb_validation_samples // batch_size
+
 train_labels = train_generator.classes
 validation_labels = validation_generator.classes
 
@@ -213,6 +200,8 @@ np.save(class_indices_path, train_generator.class_indices)
 # get the class weights
 class_weights = get_class_weights(train_data_dir)
 print(class_weights)
+
+bn_start_time = datetime.now()
 
 if run_training:
     if load_from_checkpoint_train:
@@ -237,11 +226,6 @@ if run_training:
 
         # compile the model (should be done *after* setting layers to non-trainable)
         model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc', 'top_k_categorical_accuracy'])
-
-    train_steps = int(math.ceil(nb_train_samples / batch_size))
-    validation_steps = int(math.ceil(nb_validation_samples / batch_size))
-    # train_steps = nb_train_samples // batch_size
-    # validation_steps = nb_validation_samples // batch_size
 
     bn_start_time = datetime.now()
     print("[Info] Model Bottlenecking started at: {}".format(bn_start_time))
@@ -273,7 +257,7 @@ if run_training:
                 workers=8,
                 callbacks=callbacks_list)
 
-    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models-new', 'bottleneck.png'))
+    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models', 'bottleneck.png'))
 
     print("\n")
 
@@ -283,13 +267,16 @@ if run_training:
     bn_duration = bn_end_time - bn_start_time
     print("[Info] Total time for Bottlenecking: {}".format(bn_duration))
 
-    (eval_loss, eval_accuracy) = model.evaluate_generator(
+    print(model.metrics_names)
+
+    (eval_loss, eval_accuracy, top_k) = model.evaluate_generator(
                                     validation_generator,
                                     steps=validation_steps)
 
     print("\n")
 
     print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
+    print("[INFO] Top-5-accuracy: {:.2f}%".format(top_k * 100))
     print("[INFO] Loss: {}".format(eval_loss))
 
     print("[Info] Saving initial model to disk: {}".format(initial_model_path))
@@ -352,9 +339,9 @@ if run_finetune:
 
     print("\n")
 
-    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models-new', 'finetune.png'))
+    plot_history(history, save_fig=True, save_path=os.path.join('data', 'models', 'finetune.png'))
 
-    (eval_loss, eval_accuracy) = model.evaluate_generator(
+    (eval_loss, eval_accuracy, top_k) = model.evaluate_generator(
                                     validation_generator,
                                     steps=validation_steps)
 
@@ -371,5 +358,6 @@ if run_finetune:
     print("\n")
 
     print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
+    print("[INFO] Top-5-accuracy: {:.2f}%".format(top_k * 100))
     print("[INFO] Loss: {}".format(eval_loss))
 
