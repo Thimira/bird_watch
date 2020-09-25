@@ -30,13 +30,30 @@
         <p class="lead">Upload your bird images below, and the system will try to recognition them using Deep Learning/AI and Computer Vision.</p>
     </div>
     {% endif %}
-    <form action="" method="post" enctype="multipart/form-data">
+    <form id="process_image" action="" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="bird_image">Select an image to upload <small class="text-muted">(Supports .jpg, .jpeg, .gif, and .png images. Lower resolution images works just fine. We will not be storing any of the images you upload.)</small></label>
-            <input type="file" class="form-control-file btn btn-outline-secondary" name="bird_image" id="bird_image" accept=".jpg,.jpeg,.gif,.png" required="required">
         </div>
         <div class="form-group">
-            <input type="submit" value="Process" name="submit" class="btn btn-dark">
+            <div class="input-group">
+                <label for="bird_image" class="label label-info form-control" id="upload-file-info"></label>
+                <div class="input-group-append">
+                    <label class="btn btn-primary" for="bird_image" onclick="$('#upload-file-info').html('')">
+                        <input type="file" id="bird_image" name="bird_image" accept=".jpg,.jpeg,.gif,.png" style="display:none" 
+                        onchange="$('#upload-file-info').html(this.files[0].name)">Select Ptoto</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col d-flex justify-content-center">
+                        <input type="submit" value="Analyze Photo" name="submit" class="btn btn-lg btn-dark">
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
         </div>
     </form>
     <br />
@@ -85,28 +102,71 @@
                     </div>
                 </div>
             </div>
+            {% if top_5 %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Other Possibilities</h5>
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Prediction</th>
+                                    <th scope="col">Confidence (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for result in top_5 %}
+                            <tr><td>{{ result[0] }}</td><td>{{ result[1] }}%</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col d-flex justify-content-center">
+                <a class="btn btn-secondary" href="/">Clear Results</a>
+            </div>
+            <div class="col"></div>
         </div>
     </div>    
     {% endif %}
     <div class="container">
-        <p class="lead">Do you find this site useful? Let us know your feedback on how we can improve it.</p>
+        <hr/>
         <form>
-            <div class="form-row">
-                <div class="col-auto">
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
+                    <p class="lead">Feedback</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
+                    <p>Did you find BirdWatch App useful? Let us know how we can improve it.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
                     <span id="star-rating">
-                        <i class="fas fa-star py-2 px-1 rate-star" data-index="0" title="Very bad"></i>
-                        <i class="fas fa-star py-2 px-1 rate-star" data-index="1" title="Poor"></i>
-                        <i class="fas fa-star py-2 px-1 rate-star" data-index="2" title="OK"></i>
-                        <i class="fas fa-star py-2 px-1 rate-star" data-index="3" title="Good"></i>
-                        <i class="fas fa-star py-2 px-1 rate-star" data-index="4" title="Excellent"></i>
+                        <i class="fas fa-star fa-lg py-2 px-2 rate-star" data-index="0" title="Very bad"></i>
+                        <i class="fas fa-star fa-lg py-2 px-2 rate-star" data-index="1" title="Poor"></i>
+                        <i class="fas fa-star fa-lg py-2 px-2 rate-star" data-index="2" title="OK"></i>
+                        <i class="fas fa-star fa-lg py-2 px-2 rate-star" data-index="3" title="Good"></i>
+                        <i class="fas fa-star fa-lg py-2 px-2 rate-star" data-index="4" title="Excellent"></i>
                     </span>
                     <span id="star-value" style="display:none"></span>
                 </div>
-                <div class="col-auto">
-                    <textarea id="feedback-text" type="text" style="font-size: 0.78rem" class="md-textarea form-control py-0" placeholder="What can we improve?" rows="3"></textarea>
+            </div>
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
+                    <textarea id="feedback-text" type="text" style="font-size: 0.78rem; text-align:center;" class="md-textarea form-control py-0" placeholder="What can we improve?" rows="3"></textarea>
                 </div>
-                <div class="col-auto">
-                    <button id="submit-feedback" type="button" class="btn btn-sm btn-primary">Submit</button>
+            </div>
+            <div class="form-group row">
+                <div class="col d-flex justify-content-center">
+                    <button id="submit-feedback" type="button" class="btn btn-sm btn-primary">Give Feedback</button>
                 </div>
             </div>
         </form>

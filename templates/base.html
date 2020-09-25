@@ -13,7 +13,7 @@
         </script>
         {% endif %}
         {% if publisher_id %}
-        <script data-ad-client="{{publisher_id}}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script data-ad-client="ca-{{publisher_id}}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         {% endif %}
 
         <!-- Required meta tags -->
@@ -38,7 +38,10 @@
                 text-align: center;
             }
             .amber-text {
-                color: #ffc107 !important;
+                color: #ff8000 !important;
+            }
+            #star-rating {
+                color: #8c8c8c;
             }
         </style>
         <title>{% block title %}{% endblock %}</title>

@@ -14,10 +14,16 @@ $(function() {
                 $("#correctness-ack").show();
             },
             failure: function(errMsg) {
-                // alert(errMsg);
+                console.log(errMsg);
             }
         });
     }
+
+    $("#process_image").submit(function( event ) {
+        if (!$('#bird_image').val()) {
+            event.preventDefault();
+        }
+      });
 
     $("#pred-correct").click( function(event) {
         event.preventDefault();
