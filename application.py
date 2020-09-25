@@ -20,7 +20,7 @@ import boto3
 from decimal import Decimal
 
 config = configparser.ConfigParser()
-config.read('conf/production.ini')
+config.read('conf/application.ini')
 
 app_config = config['default']
 
@@ -94,9 +94,23 @@ def classify_image(image):
     inv_map = {v: k for k, v in class_dictionary.items()}
     label = inv_map[inID]
 
-    print("[Info] Predicted: {}, Confidence: {}".format(label, prediction_probability))
+    top_5 = get_top_n_predictions(probabilities, inv_map)[0]
 
-    return label, prediction_probability
+    print("[Info] Predicted: {}, Confidence: {}".format(label, prediction_probability))
+    print(top_5)
+
+    return label, prediction_probability, top_5
+
+def get_top_n_predictions(preds, class_map, top=5):
+    results = []
+    for pred in preds:
+        top_indices = pred.argsort()[-top:][::-1]
+        # result = [(class_map[i],) + (pred[i],) for i in top_indices]
+        result = [(class_map[i],) + (str(np.around(pred[i] * 100, decimals=8)),) for i in top_indices]
+        result.sort(key=lambda x: float(x[1]), reverse=True)
+        results.append(result)
+    return results
+
 
 def get_iamge_thumbnail(image):
     image.thumbnail((400, 400), resample=Image.LANCZOS)
@@ -144,7 +158,7 @@ def index():
             orig_image = Image.open(image_path)
             orig_width, orig_height = orig_image.size
 
-            label, prediction_probability = classify_image(image=image)
+            label, prediction_probability, top_5 = classify_image(image=image)
             prediction_probability = np.around(prediction_probability * 100, decimals=4)
 
             prediction_id = log_prediction(prediction_label=label, prediction_confidence=prediction_probability)
@@ -175,7 +189,8 @@ def index():
                                         publisher_id=publisher_id,
                                         prediction_id=prediction_id,
                                         num_classes=len(class_dictionary),
-                                        app_version=get_setting('application_version')
+                                        app_version=get_setting('application_version'),
+                                        top_5=top_5
                                         )
         else:
             print("[Error] Unauthorized file extension: {}".format(file_extension))
@@ -297,7 +312,7 @@ def sitemap():
         for rule in application.url_map.iter_rules():
             if "GET" in rule.methods and len(rule.arguments)==0:
                 # skipping the sitemap and robots.txt routes
-                if (str(rule.rule) == '/sitemap.xml' or str(rule.rule) == '/robots.txt'):
+                if (str(rule.rule) == '/sitemap.xml' or str(rule.rule) == '/robots.txt' or str(rule.rule) == '/ads.txt'):
                     continue
 
                 pages.append(
@@ -314,6 +329,13 @@ def sitemap():
 
 def robots():
     return send_from_directory(application.static_folder, 'robots.txt')
+
+def ads_txt():
+    ads_txt = render_template('ads.txt', publisher_id=publisher_id)
+    response = make_response(ads_txt)
+    response.headers["Content-Type"] = "text/plain"
+
+    return response
 
 def http_413(e):
     print("[Error] Uploaded file too large.")
@@ -338,6 +360,7 @@ application.add_url_rule('/about', 'about', about, methods=['GET'])
 
 application.add_url_rule('/sitemap.xml', 'sitemap.xml', sitemap, methods=['GET'])
 application.add_url_rule('/robots.txt', 'robots.txt', robots, methods=['GET'])
+application.add_url_rule('/ads.txt', 'ads.txt', ads_txt, methods=['GET'])
 
 application.register_error_handler(413, http_413)
 application.config['MAX_CONTENT_LENGTH'] = app_config.getint('max_upload_size') * 1024 * 1024
