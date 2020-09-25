@@ -43,6 +43,10 @@
             #star-rating {
                 color: #8c8c8c;
             }
+            .jumbotron {
+                background-image: url("{{ url_for('static', filename='images/hero-bg.jpg') }}");
+                background-size: cover;
+            }
         </style>
         <title>{% block title %}{% endblock %}</title>
     </head>
