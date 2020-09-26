@@ -139,6 +139,19 @@
     {% endif %}
     <div class="container">
         <hr/>
+        <div class="form-group row">
+            <div class="col d-flex justify-content-center">
+                <p class="lead">Do you have a large amount of bird images that needs identification/tagging?</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col d-flex justify-content-center">
+                <a class="btn btn-secondary" href="https://www.birdwatch.photo/birdwatch-service/">Get in touch with us</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <hr/>
         <form>
             <div class="form-group row">
                 <div class="col d-flex justify-content-center">
@@ -177,16 +190,15 @@
         <div id="feedback-ack"></div>
     </div>
     <br />
-    <div class="alert alert-info" role="alert">
-        <h5 class="alert-heading">Changelog: <a href="https://www.birdwatch.photo/birdwatch-app/" target="_blank" class="alert-link">See The BirdWatch App Details Page</a></h5>
-        <h5 class="alert-heading">Info for the users:</h5>
+    <div class="alert alert-light" role="alert">
+        <h5 class="alert-heading">Disclaimer:</h5>
         <ul>
-            <li>The system uses a deep learning model (specifically, a convolutional neural network), which has been trained on thousands of known images, to classify the images you upload.</li>
+            <li>The system uses a deep learning model (a convolutional neural network), which has been trained on thousands of known images, to classify the images you upload. See <a href="https://www.birdwatch.photo/the-ai-behind-birdwatch/" target="_blank" class="alert-link">How it Works</a>.</li>
             <li>As this is a <strong>beta</strong> release, the system is still limited. Therefore, miss-identification of images are still possible.</li>
             <li>Over time, as we train the system further, the accuracy will get better, and the miss-classifications will reduce.</li>
             <li>The system can currently identify {{num_classes}} species of birds. See the <a href="/about" class="alert-link">About</a> page for details.</li>
             <li>We <strong>will not</strong> store any of the images you upload. The images are discarded as soon as the classification is made.</li>
-            <li>The code of this application is publicly available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>. Feel free to go through the code, and suggest improvements.</li>
+            <li>The code of this application is open source, and publicly available at <a href="https://github.com/Thimira/bird_watch" target="_blank" class="alert-link">GitHub</a>. Feel free to go through the code, and suggest improvements.</li>
         </ul>
     </div>
     <br />

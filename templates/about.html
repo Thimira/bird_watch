@@ -28,8 +28,24 @@
         <h1>Bird Watch</h1>
         <p class="lead">The Deep Learning/AI and Computer Vision based Bird Image Identification System.</p>
         <p class="lead">Built for fellow wildlife photographers, by an amateur photographer and a machine learning enthusiast, the 'Bird Watch' project aims to be a solution to a simple problem: a way for photographers to identify birds in their photographs. This can also be a useful tool for bird/nature enthusiasts, researchers and academics.</p>
+        <p>Application Changelog: <a href="https://www.birdwatch.photo/birdwatch-app/" target="_blank" class="alert-link">See the BirdWatch application details page</a></p>
         <p class="lead">The system can currently identify the following {{ classes|length }} species of birds:</p>
     </div>
+    {% if publisher_id %}
+    <div class="container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- BW App - Content -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-{{publisher_id}}"
+            data-ad-slot="6281028275"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    {% endif %}
     <div class="table-responsive">
         <table class="table table-striped">
             <thead class="thead-light">
@@ -89,7 +105,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-light" role="alert">
                 <h5 class="alert-heading">Info:</h5>
                 <ul>
                     <li>As this is a <strong>beta</strong> release, the system is still limited. Therefore, miss-identification of images are still possible.</li>
