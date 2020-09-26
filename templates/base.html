@@ -54,7 +54,7 @@
         <header>
             <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
                 <a class="navbar-brand" href="#">Bird Watch</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#birdWatchNavbarTop" aria-controls="birdWatchNavbarTop" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 {% block navbar %}{% endblock %}
@@ -81,10 +81,10 @@
         </main>
 
         <nav class="navbar navbar-expand-md navbar-bottom navbar-light bg-light">
-            <span class="navbar-text">
-                Bird Watch v{{ app_version }}
-            </span>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#birdWatchNavbarBottom" aria-controls="birdWatchNavbarBottom" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"  id="birdWatchNavbarBottom">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                       <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
@@ -100,7 +100,9 @@
                     </li>
                   </ul>
             </div>
-            
+            <span class="navbar-text">
+                Bird Watch v{{ app_version }}
+            </span>
             <span class="navbar-text">
                 <a class="nav-link" href="https://github.com/Thimira/bird_watch" target="_blank"  rel="nofollow">GitHub</a>
             </span>
