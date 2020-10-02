@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
-{% block metadesc %}About the Bird Watch project, the bird image identification system for photographers: it's history, goals, capabilities, current limitations, and future plans.   .{% endblock %}
+{% block metadesc %}About the BirdWatch project, the bird image identification system for photographers: it's current capabilities, limitations, and the team behind it.{% endblock %}
 
-{% block title %}Bird Watch - About: The History, Goals, Capabilities, and Limitations{% endblock %}
+{% block title %}BirdWatch - About: The Capabilities, Limitations, and the People behind it{% endblock %}
+
+{% block og_title %}BirdWatch - Home: The Deep Learning Bird Image Identification System{% endblock %}
+{% block og_desc %}About the BirdWatch project, the bird image identification system for photographers: it's current capabilities, limitations, and the team behind it.{% endblock %}
+
+{% block pageurl %}https://app.birdwatch.photo/about{% endblock %}
 
 {% block navbar %}
 <div class="collapse navbar-collapse" id="birdWatchNavbarTop">
@@ -25,9 +30,9 @@
 
 {% block content %}
     <div class="center-content">
-        <h1>Bird Watch</h1>
-        <p class="lead">The Deep Learning/AI and Computer Vision based Bird Image Identification System.</p>
-        <p class="lead">Built for fellow wildlife photographers, by an amateur photographer and a machine learning enthusiast, the 'Bird Watch' project aims to be a solution to a simple problem: a way for photographers to identify birds in their photographs. This can also be a useful tool for bird/nature enthusiasts, researchers and academics.</p>
+        <h1>About BirdWatch</h1>
+        <p class="lead">The BirdWatch Project aims to provide a solution to a simple problem that many wildlife photographers face: a way to identify the birds in their photographs</p>
+        <p>Built by an amateur photographer and a machine learning enthusiast, this project hopes to provide a solution to this problem using AI/Deep Learning and Computer Vision. BirdWatch can also be a useful tool for bird and nature enthusiasts, researchers and academics.</p>
         <p>Application Changelog: <a href="https://www.birdwatch.photo/birdwatch-app/" target="_blank" class="alert-link">See the BirdWatch application details page</a></p>
         <p class="lead">The system can currently identify the following {{ classes|length }} species of birds:</p>
     </div>

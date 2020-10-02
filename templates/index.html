@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
-{% block metadesc %}Bird Watch: The Bird Image Identification System. The best tool for wildlife photographers, bird/nature enthusiasts, researchers and academics. The system works using Deep Learning/AI and Computer Vision techniques.{% endblock %}
+{% block metadesc %}Bird Watch: The Deep Learning Bird Image Identification System, for wildlife photographers, bird and nature enthusiasts, researchers and academics.{% endblock %}
 
 {% block title %}Bird Watch - Home: The Deep Learning Bird Image Identification System{% endblock %}
+
+{% block og_title %}Bird Watch - Home: The Deep Learning Bird Image Identification System{% endblock %}
+{% block og_desc %}Bird Watch: The Deep Learning Bird Image Identification System, for wildlife photographers, bird and nature enthusiasts, researchers and academics.{% endblock %}
+
+{% block pageurl %}https://app.birdwatch.photo{% endblock %}
 
 {% block navbar %}
 <div class="collapse navbar-collapse" id="birdWatchNavbarTop">
@@ -27,10 +32,11 @@
 {% block content %}
     {% if not label %}
     <div class="jumbotron text-center">
-        <h1 class="display-4"><strong>BirdWatch</strong></h1>
-        <p class="lead">The Bird Image Identification System. A useful tool for wildlife photographers, bird/nature enthusiasts, researchers and academics.</p>
+        <img src="{{ url_for('static', filename='images/logo-dark.png') }}" class="img-fluid" height="60" width="414" alt="The Bird Image Identification System" title="The Bird Image Identification System" loading="lazy">
+        <h1  class="h4">The Deep Learning Bird Image Identification System</h1>
+        <p class="lead">For wildlife photographers, bird and nature enthusiasts, researchers and academics</p>
         <hr class="my-4">
-        <p class="lead">Upload your bird images below, and the system will try to recognition them using Deep Learning/AI and Computer Vision.</p>
+        <p class="lead">Upload your bird images below, and the system will try to recognition them using Deep Learning/AI and Computer Vision</p>
     </div>
     {% endif %}
     <form id="process_image" action="" method="post" enctype="multipart/form-data">
@@ -150,6 +156,21 @@
             </div>
         </div>
     </div>
+    {% if publisher_id %}
+    <div class="container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- BW App - Content -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-{{publisher_id}}"
+            data-ad-slot="6281028275"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    {% endif %}
     <div class="container">
         <hr/>
         <form>

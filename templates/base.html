@@ -22,6 +22,20 @@
         <meta name="description" content="{% block metadesc %}{% endblock %}">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+        <!-- OpenGraph meta tags : https://ogp.me/ -->
+        <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+        <meta property="og:description" content="{% block og_desc %}{% endblock %}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{% block pageurl %}{% endblock %}" />
+        <meta property="og:image" content="{{ url_for('static', filename='images/logo-promo.png') }}" />
+        <meta property="og:image:width" content="586" />
+        <meta property="og:image:height" content="586" />
+
+        <!-- Twitter Card meta tags : https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@thimira42" />
+        <meta name="twitter:creator" content="@thimira42" />
+
         <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
 
         <!-- Bootstrap CSS -->
@@ -53,7 +67,9 @@
     <body>
         <header>
             <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">Bird Watch</a>
+                <a class="navbar-brand" href="#">
+                    <img src="{{ url_for('static', filename='images/logo-nav.png') }}" height="20" width="138" alt="BirdWatch Home" loading="lazy">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#birdWatchNavbarTop" aria-controls="birdWatchNavbarTop" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
