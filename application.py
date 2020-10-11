@@ -18,11 +18,18 @@ from datetime import datetime, timedelta
 import configparser
 import boto3
 from decimal import Decimal
+from itertools import islice
 
 config = configparser.ConfigParser()
 config.read('conf/application.ini')
 
 app_config = config['default']
+
+# util function to chunk a dictionary to multiple dictionaries
+def get_chunks(data, SIZE=100):
+    it = iter(data)
+    for i in range(0, len(data), SIZE):
+        yield {k:data[k] for k in islice(it, SIZE)}
 
 # https://github.com/tensorflow/tensorflow/issues/24828
 # from tensorflow.keras.backend import set_session
@@ -53,6 +60,11 @@ img_height = app_config.getint('img_height')
 final_model_path = app_config.get('final_model_path')
 
 class_dictionary = np.load(app_config.get('class_dictionary_path'), allow_pickle=True).item()
+
+# chunck the class dictionary for display purpose
+chunked_list = get_chunks(class_dictionary, SIZE=(len(class_dictionary) // 2))
+list_one = next(chunked_list)
+list_two = next(chunked_list)
 
 # Google analytics property ID
 analytics_id = app_config.get('analytics_id')
@@ -101,6 +113,7 @@ def classify_image(image):
 
     return label, prediction_probability, top_5
 
+
 def get_top_n_predictions(preds, class_map, top=5):
     results = []
     for pred in preds:
@@ -118,6 +131,7 @@ def get_iamge_thumbnail(image):
     with BytesIO() as buffer:
         image.save(buffer, 'jpeg')
         return base64.b64encode(buffer.getvalue()).decode()
+
 
 def index():
     # handling the POST method of the submit
@@ -288,7 +302,14 @@ def get_setting(setting_id):
 
 
 def about():
-    return render_template('about.html', analytics_id=analytics_id, publisher_id=publisher_id, classes=class_dictionary, app_version=get_setting('application_version'))
+    return render_template('about.html', 
+                            analytics_id=analytics_id, 
+                            publisher_id=publisher_id, 
+                            classes=class_dictionary,
+                            list_one=list_one,
+                            list_two=list_two,
+                            app_version=get_setting('application_version')
+                            )
 
 def howitworks():
     return render_template('howitworks.html', 

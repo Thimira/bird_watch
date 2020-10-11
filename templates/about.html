@@ -51,20 +51,39 @@
         </script>
     </div>
     {% endif %}
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Bird ID</th>
-                    <th scope="col">Bird Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for bird_name, bird_id in classes.items() %}
-                <tr><td>{{ bird_id + 1 }}</td><td>{{ bird_name }}</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Bird ID</th>
+                            <th scope="col">Bird Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bird_name, bird_id in list_one.items() %}
+                        <tr><td>{{ bird_id + 1 }}</td><td>{{ bird_name }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Bird ID</th>
+                            <th scope="col">Bird Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bird_name, bird_id in list_two.items() %}
+                        <tr><td>{{ bird_id + 1 }}</td><td>{{ bird_name }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="row">
