@@ -36,7 +36,7 @@ class TrainingMonitor(BaseLogger):
 		# for the entire training process
 		for (k, v) in logs.items():
 			l = self.H.get(k, [])
-			l.append(v.item())
+			l.append(v)
 			self.H[k] = l
 
 		# check to see if the training history should be serialized
