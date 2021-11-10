@@ -8,5 +8,5 @@ numpy==1.18.1
 scipy==1.4.1
 Pillow==8.3.2
 h5py==2.8.0
-tensorflow==2.5.1
+tensorflow==2.5.2
 boto3==1.9.162
